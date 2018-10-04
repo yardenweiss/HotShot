@@ -1,5 +1,6 @@
 package com.example.yarden.hotshot.Activitys;
 
+import android.arch.lifecycle.HolderFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -69,66 +70,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new AuthUI.IdpConfig.GoogleBuilder().build()))
                 .build() , 1);
         currectUser = auth.getCurrentUser();
-        init();
 
         if(savedInstanceState == null)
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
-                    new ProfileFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_profile);
+                    new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
-    private void init()
-    {
-        wifiManager= (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifiP2pManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        p2PWifi = new P2PWifi(getBaseContext(), this , wifiP2pManager);
-        try {
-            p2PWifi.initialWork();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        User user = new User(currectUser);
-        getWifi = new AskForWifi(p2PWifi , wifiManager );
-        shareWifi = new ShareWifi(p2PWifi , wifiManager , user);
-
-        FloatingActionButton fab_getWifi = (FloatingActionButton) findViewById(R.id.fab_getWifi);
-        fab_getWifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Searching for available Wifi", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                getWifi.GetWifi();
-            }
-        });
-
-        FloatingActionButton fab_shareWifi = (FloatingActionButton) findViewById(R.id.fab_shareWifi);
-        fab_shareWifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(shareWifi.CheckSetting()) {
-                    Snackbar.make(view, "Searching for users", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    shareWifi.ShareWifi();
-                }
-                else
-                {
-                    Snackbar.make(view, "Password not available", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    Intent profileIntent = new Intent(MainActivity.this , ProfileFragment.class);
-                    profileIntent.putExtra("FillPassword", true);
-                    startActivity(profileIntent);
-                }
-            }
-        });
-
-    }
 
 
 
@@ -148,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@Nullable MenuItem item) {
         // Handle navigation view item clicks here.
        switch (item.getItemId()){
+           case R.id.nav_home:
+               getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
+                       new HomeFragment()).commit();
+               break;
            case R.id.nav_profile:
                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
                        new ProfileFragment()).commit();
