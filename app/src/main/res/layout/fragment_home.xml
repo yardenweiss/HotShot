@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_shareWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="178dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/fab_getWifi"
+            app:backgroundTint="@android:color/holo_green_light"
+            app:layout_constraintTop_toBottomOf="@+id/fab_getWifi"
+            app:srcCompat="@drawable/router"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_getWifi"
+            android:layout_width="38dp"
+            android:layout_height="79dp"
+            android:layout_marginBottom="119dp"
+            android:layout_marginTop="134dp"
+            android:clickable="true"
+            app:backgroundTint="@android:color/holo_green_light"
+            app:layout_constraintBottom_toTopOf="@+id/fab_shareWifi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/search_wifi" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

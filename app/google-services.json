@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "909175082291",
+    "firebase_url": "https://hotshot-a5d4b.firebaseio.com",
+    "project_id": "hotshot-a5d4b",
+    "storage_bucket": "hotshot-a5d4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909175082291:android:210dc4c3584b3a27",
+        "android_client_info": {
+          "package_name": "com.example.yarden.hotshot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909175082291-7itpispo8cb57o4m5r8nv6f83999gh1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.yarden.hotshot",
+            "certificate_hash": "0d0b205a2d7b193a4c247306d366be53396036ed"
+          }
+        },
+        {
+          "client_id": "909175082291-cke1k65rj8q4jg9vu8u6kuqleoorgrif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-UmX7g-WlMhnNnhy5BeCYUtmzTvUp-Zc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909175082291-cke1k65rj8q4jg9vu8u6kuqleoorgrif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
