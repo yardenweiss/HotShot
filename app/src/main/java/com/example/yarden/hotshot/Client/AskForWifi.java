@@ -31,7 +31,6 @@ public class AskForWifi {
         p2pWifi = _p2pWifi;
     }
 
-
     private void setSSID(String ssid){
         m_ssid = ssid;
     }
@@ -41,11 +40,7 @@ public class AskForWifi {
     }
 
     private void connectToWifi() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        //  String ssid = "yarden"; // temp for debuging
-        //  String key = "Aa123456"; // temp for debuging
-
         m_wifiManager.setWifiEnabled(true);
-
         m_wifiConf.SSID = "\"" + m_ssid + "\"";
         m_wifiConf.preSharedKey = "\""+ m_key +"\"";
         int netId = m_wifiManager.addNetwork(m_wifiConf);
@@ -53,8 +48,6 @@ public class AskForWifi {
         m_wifiManager.disconnect();
         m_wifiManager.enableNetwork(netId, true);
         m_wifiManager.reconnect();
-
-
     }
 
     private void enableWifi() {
@@ -62,25 +55,30 @@ public class AskForWifi {
             m_wifiManager.setWifiEnabled(true);
     }
 
-    public void GetWifi() {
-
+    public boolean GetWifi() {
+        boolean connect = false;
         try {
             enableWifi();
-            p2pWifi.StartConnectionP2P();
+            connect = p2pWifi.StartConnectionP2P();
+            if (connect)
+                SendAndConnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return connect;
+    }
+
+
+    public void  SendAndConnect(){
+        try {
             p2pWifi.WriteMessege("Hi");
             String msg = p2pWifi.GetAnswerMsg();
             String[] parts = msg.split("--");
             setSSID(parts[0]);
             setKey(parts[1]);
-            wait(2000); // wait still provider hotspot is on
+            wait(9000); // wait still provider hotspot is on
             connectToWifi();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -23,6 +23,7 @@ public class ShareWifi   {
     private WifiConfiguration m_wifiConf;
     private static Method getWifiApState;
     private User user;
+    private int Time_Out=10;
 
 
     static {
@@ -72,21 +73,32 @@ public class ShareWifi   {
 
     }
 
-    public void ShareWifi()
-    {
-            if (!m_wifiManager.isWifiEnabled())
-                m_wifiManager.setWifiEnabled(true);
+    private void enableWifi(){
+        if (!m_wifiManager.isWifiEnabled())
+            m_wifiManager.setWifiEnabled(true);
+    }
 
-            try {
-                wait(1000);
-                if(p2pWifi.GetAnswerMsg() == "Hi")
-                {
-                    p2pWifi.WriteMessege("yarden--Aa123456");
-                    //trun on HotSpot!
+    public boolean ShareWifi() {
+        int count = 0;
+        boolean findClient = false;
+        try {
+            while (count == Time_Out) {
+                wait(2000);
+                if (p2pWifi.GetAnswerMsg() == "Hi") {
+                    p2pWifi.WriteMessege("HT37--12345678");//need to send also firebaseuser id
+                    findClient = true;
+                    break;
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                //trun on HotSpot!
+                count++;
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            return findClient;
+        }
 
     }
 

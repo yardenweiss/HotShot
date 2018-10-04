@@ -47,22 +47,32 @@ public class HomeFragment extends Fragment {
    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       mainActivity = (MainActivity)getActivity();
         return inflater.inflate(R.layout.fragment_home , container , false);
     }
 
-     private void init()
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mainActivity = (MainActivity)getActivity();
+        init();
+    }
+
+    private void init()
     {
+        try {
         wifiManager= (WifiManager) mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiP2pManager = (WifiP2pManager) mainActivity.getSystemService(Context.WIFI_P2P_SERVICE);
         p2PWifi = new P2PWifi(mainActivity.getApplicationContext(),(MainActivity) mainActivity , wifiP2pManager);
-        try {
+
             p2PWifi.initialWork();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -76,7 +86,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Searching for available Wifi",
                         Toast.LENGTH_LONG).show();
-                getWifi.GetWifi();
+                if(getWifi.GetWifi()){
+                    Toast.makeText(getActivity(), "Connect",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getActivity(), "No available Device, try agin later ",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -84,7 +101,18 @@ public class HomeFragment extends Fragment {
         fab_shareWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(shareWifi.CheckSetting()) {
+                Toast.makeText(getActivity(), "Searching for client",
+                        Toast.LENGTH_LONG).show();
+                if(shareWifi.ShareWifi()){
+                    Toast.makeText(getActivity(), "Start HotSpot",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getActivity(), "No available Device, try agin later",
+                            Toast.LENGTH_LONG).show();
+                }
+
+             /*   if(shareWifi.CheckSetting()) {
                     Snackbar.make(view, "Searching for users", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     shareWifi.ShareWifi();
@@ -96,7 +124,7 @@ public class HomeFragment extends Fragment {
                     //Intent profileIntent = new Intent(MainActivity.this , ProfileFragment.class);
                     //profileIntent.putExtra("FillPassword", true);
                //     startActivity(profileIntent);
-                }
+                }*/
             }
         });
 

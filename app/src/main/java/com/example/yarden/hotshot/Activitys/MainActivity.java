@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
                 Arrays.asList( new AuthUI.IdpConfig.EmailBuilder().build(),

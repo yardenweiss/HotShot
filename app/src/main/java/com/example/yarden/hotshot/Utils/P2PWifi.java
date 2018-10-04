@@ -32,7 +32,6 @@ import static android.os.Looper.getMainLooper;
 
 public class P2PWifi implements Serializable {
 
-
     static final int MESSAGE_READ=1;
     private WifiManager wifiManager;
     private  WifiP2pManager mManager;
@@ -48,12 +47,14 @@ public class P2PWifi implements Serializable {
     private Context context;
     private MainActivity activity;
     private String answerMsg  = null;
+    WifiP2pConfig config;
 
     public P2PWifi(Context _context, MainActivity _activity , WifiP2pManager wifiP2pManager)
     {
         context= _context;
         activity = _activity;
         mManager = wifiP2pManager;
+        config=new WifiP2pConfig();
     }
 
     public void initialWork() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
@@ -149,11 +150,7 @@ public class P2PWifi implements Serializable {
     });
 
 
-
-    public void StartConnectionP2P() throws InterruptedException {
-        WifiP2pConfig config=new WifiP2pConfig();
-        final boolean[] connectSuccess = {true};
-        boolean getAnswer = false;
+    public boolean StartConnectionP2P() throws InterruptedException {
 
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
@@ -161,7 +158,6 @@ public class P2PWifi implements Serializable {
             {
                 Log.d("Connection started" , "success");
             }
-
             @Override
             public void onFailure(int i)
             {
@@ -169,31 +165,41 @@ public class P2PWifi implements Serializable {
             }
         });
 
-        while(connectSuccess[0] && deviceArray!=null )
+     if(SerchForDevice()) {
+         mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+             @Override
+             public void onSuccess() {
+                 Log.d("connect", "connect");
+             }
+
+             @Override
+             public void onFailure(int i) {
+                 Log.d("Notconnect", "Notconnect");
+             }
+         });
+         return true; //connect
+     }
+     else {return false;}
+
+    }
+
+    private boolean SerchForDevice() {
+
+        boolean findDevice = false;
+        while(!findDevice && deviceArray != null) /// do timeout if not found device after 4 min
 
             for(WifiP2pDevice device : deviceArray)
             {
                 if(device.deviceName == "HotShsre")
                 {
                     config.deviceAddress=device.deviceAddress;
+                    findDevice=true;
                 }
             }
 
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                connectSuccess[0] =true;
-                Log.d("connect", "connect");
-            }
-
-            @Override
-            public void onFailure(int i) {
-                connectSuccess[0] =false;
-                Log.d("Notconnect", "Notconnect");
-            }
-        });
-
+            return findDevice;
     }
+
 
     public  void WriteMessege(String msg)
     {
@@ -202,16 +208,7 @@ public class P2PWifi implements Serializable {
 
     public String GetAnswerMsg()
     {
-
-        try {
-            wait(7000);
-            if( answerMsg  != null)
                 return answerMsg;
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 
