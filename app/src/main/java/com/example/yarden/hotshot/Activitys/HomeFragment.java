@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,11 @@ import com.example.yarden.hotshot.SendReceive;
 import com.example.yarden.hotshot.Utils.P2PWifi;
 import com.example.yarden.hotshot.Utils.User;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -43,6 +49,8 @@ public class HomeFragment extends Fragment {
     private ShareWifi shareWifi;
     private FirebaseUser currectUser;
     private MainActivity mainActivity;
+    private FirebaseDatabase database ;
+    private DatabaseReference myRef;
 
    @Nullable
     @Override
@@ -60,6 +68,9 @@ public class HomeFragment extends Fragment {
 
     private void init()
     {
+         database = FirebaseDatabase.getInstance();
+         myRef = database.getReference("message");
+
         try {
         wifiManager= (WifiManager) mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiP2pManager = (WifiP2pManager) mainActivity.getSystemService(Context.WIFI_P2P_SERVICE);
@@ -75,6 +86,23 @@ public class HomeFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
 
         User user = new User(currectUser);
         getWifi = new AskForWifi(p2PWifi , wifiManager );
@@ -129,6 +157,7 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
 
 
 }

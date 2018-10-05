@@ -4,25 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/inputLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="255dp"
                 android:orientation="vertical"
-                app:passwordToggleEnabled="true"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="178dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_logout"
+                app:passwordToggleEnabled="true">
 
                 <EditText
+                    android:id="@+id/editText_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Password"
@@ -32,11 +40,60 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="212dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@string/bottom_sheet_behavior"
                 android:text="Enter yout Hotspot Password : "
+                android:textColor="@android:color/holo_green_light"
+                app:layout_constraintBottom_toTopOf="@+id/inputLayout"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                app:layout_constraintBottom_toTopOf="@+id/button_logout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_email" />
+
+            <Button
+                android:id="@+id/button_logout"
+                android:layout_width="87dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="62dp"
+                android:layout_marginStart="10dp"
+                android:text="Logout"
+                app:layout_constraintBottom_toTopOf="@+id/inputLayout"
+                app:layout_constraintStart_toStartOf="@+id/editText"
+                app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+            <TextView
+                android:id="@+id/textView_email"
+                android:layout_width="185dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="62dp"
+                android:text="Your Email Acount :"
+                android:textColor="@android:color/holo_green_light"
+                app:layout_constraintBottom_toTopOf="@+id/editText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_pass_ok"
+                android:layout_width="86dp"
+                android:layout_height="40dp"
+                android:text="ok"
                 tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="127dp" />
+                tools:layout_editor_absoluteY="329dp" />
+
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 
