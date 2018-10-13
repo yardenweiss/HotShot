@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment implements PeersEventListener , Serve
          getWifi = new ClientManager(p2PWifi , wifiManager );
          shareWifi = new ShareWifi(p2PWifi , wifiManager );
         shareWifi.setPeerEventListener(this);
-        p2PWifi.setClientReciveEventListeners(getWifi);
+        p2PWifi.setServerReciveEventListeners(this);
 
         ListView list = (ListView)getActivity().findViewById(R.id.list_view_peers);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
