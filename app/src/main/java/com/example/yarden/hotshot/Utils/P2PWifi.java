@@ -18,6 +18,7 @@ import com.example.yarden.hotshot.MainActivity;
 import com.example.yarden.hotshot.Provider.ClientReciveEventListener;
 import com.example.yarden.hotshot.Provider.ConnectionEstablishedInterface;
 import com.example.yarden.hotshot.Provider.PeersEventListener;
+import com.example.yarden.hotshot.Provider.ServerReciveEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +59,7 @@ public class P2PWifi implements Serializable {
     private ArrayList<PeersEventListener> peersEventListeners;
     private ArrayList<ConnectionEstablishedInterface> connectionEstablishedEventListeners;
     private ArrayList<ClientReciveEventListener> clientReciveEventListeners;
-
+    private ArrayList<ServerReciveEventListener> serverReciveEventListeners;
     // tmp param
     boolean mIsClient = true;
 
@@ -72,6 +73,7 @@ public class P2PWifi implements Serializable {
         peersEventListeners = new ArrayList<>();
         connectionEstablishedEventListeners = new ArrayList<>();
         clientReciveEventListeners = new ArrayList<>();
+        serverReciveEventListeners = new ArrayList<>();
         changeName();
     }
 
@@ -135,7 +137,7 @@ public class P2PWifi implements Serializable {
                 }
             });
 
-            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+           /* mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
                 @Override
                 public void onSuccess() {
                     Toast.makeText(context, "Connected to " + device.deviceName, Toast.LENGTH_SHORT).show();
@@ -145,7 +147,7 @@ public class P2PWifi implements Serializable {
                 public void onFailure(int i) {
                     Toast.makeText(context, "Not Connected", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -224,13 +226,17 @@ public class P2PWifi implements Serializable {
     }
 
     private void notifyAllServerReceiveListeners(){
-        for(ClientReciveEventListener listener : clientReciveEventListeners ){
+        for(ServerReciveEventListener listener : serverReciveEventListeners){
             listener.handelMessage(answerMsg);
         }
     }
 
     public void setClientReciveEventListeners(ClientReciveEventListener listener){
         clientReciveEventListeners.add(listener);
+    }
+
+    public void setServerReciveEventListeners(ServerReciveEventListener listener){
+        serverReciveEventListeners.add(listener);
     }
 
     //Listeners
@@ -272,34 +278,14 @@ public class P2PWifi implements Serializable {
                 @Override
                 public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
                     final InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
-                    if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner ) // Host
+                    if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner && serverClass==null) // Host
                     {
                         serverClass = new ServerClass();
                         serverClass.start();
-
-
-                        //    notifyAllConnectionListeners();
-                        /// if (!mIsClient) {
-                        ///     while (true) {
-                        ///         if (!serverClass.IsSendReciveNull()) {
-                        ///             sendReceive = serverClass.getSendReceive();
-                        ///             sendReceive.setHandler(sendPassHandler);
-                        ///             notifyAllConnectionListeners();
-                        ///             break;
-                        ///         }
-                        ///     }
-                        /// }
                     } else if (wifiP2pInfo.groupFormed && clientClass==null) // Client
                     {
                         clientClass = new ClientClass(groupOwnerAddress);
                         clientClass.start();
-                        //while (true) {
-                        //    if (!clientClass.IsSendReciveNull()) {
-                        //        sendReceive = clientClass.getSendReceive();
-                        //        sendReceive.setHandler(sendPassHandler);
-                        //        break;
-                        //    }
-                        //}
                     }
                 }
             };

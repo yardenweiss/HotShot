@@ -41,7 +41,7 @@ public class ShareWifi  implements PeersEventListener, ConnectionEstablishedInte
         mPeersEventListeners = new ArrayList<>();
         p2pWifi.setPeerEventListener(this);
         p2pWifi.setConnectionEstablishedEventListeners(this);
-
+        getHotspotInfo();
     }
 
 
