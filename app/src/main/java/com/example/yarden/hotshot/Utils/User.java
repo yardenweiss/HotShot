@@ -1,39 +1,76 @@
 package com.example.yarden.hotshot.Utils;
 
+import android.support.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class User implements Serializable{
+public class User {
 
-    private String HotspotPass = null;
     private String ssid;
-   private FirebaseUser firebaseUser;
+    private String hotspotPassword;
+    private String firebaseUid;
+    private String firebaseUidProvider;
+    private FirebaseUser firebaseUser ;
 
-
-    public User(FirebaseUser _firebaseUser ){
-        firebaseUser = _firebaseUser;
-
+    public String GetFirebaseUserUid() {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUid= firebaseUser.getUid();
+        return firebaseUid;
     }
 
-    public void SetPassword(String password)
+    public void setGetFirebaseUidProvider(String uid)
     {
-        HotspotPass = password;
+        firebaseUidProvider = uid;
     }
 
-    public String GetHotsptPass() {
-        return HotspotPass;
+    public String getFirebaseUidProvider() {
+        return firebaseUidProvider;
     }
+
+    public void setSsid(String _ssid)
+    {
+        ssid = _ssid;
+    }
+
+    public String getSsid() {
+        return ssid;
+    }
+
+    public void setHotspotPassword(String hotspotPassword) {
+        this.hotspotPassword = hotspotPassword;
+    }
+
+    public String getHotspotPassword() {
+        return hotspotPassword;
+    }
+
+
 
     public String GetEmail(){
+
         return firebaseUser.getEmail();
     }
 
     public void UpdateEmail(String email){
+
         firebaseUser.updateEmail(email);
     }
 
-    public void UpdatePassOfEmail(String pass){
-        firebaseUser.updatePassword(pass);
+    public void Logout(){
+        firebaseUser.delete();
     }
+
+
+
 }

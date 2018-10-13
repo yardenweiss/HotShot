@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "909175082291",
-    "firebase_url": "https://hotshot-a5d4b.firebaseio.com",
-    "project_id": "hotshot-a5d4b",
-    "storage_bucket": "hotshot-a5d4b.appspot.com"
+    "project_number": "1011594200107",
+    "firebase_url": "https://hotshot-e393b.firebaseio.com",
+    "project_id": "hotshot-e393b",
+    "storage_bucket": "hotshot-e393b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909175082291:android:210dc4c3584b3a27",
+        "mobilesdk_app_id": "1:1011594200107:android:210dc4c3584b3a27",
         "android_client_info": {
           "package_name": "com.example.yarden.hotshot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "909175082291-7itpispo8cb57o4m5r8nv6f83999gh1c.apps.googleusercontent.com",
+          "client_id": "1011594200107-1os79jnmrksdgc69g93kv2gsap7l7ncj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.yarden.hotshot",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "909175082291-cke1k65rj8q4jg9vu8u6kuqleoorgrif.apps.googleusercontent.com",
+          "client_id": "1011594200107-j5qg0r4uqqhkdm58kd2rjirs92fjue1a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC-UmX7g-WlMhnNnhy5BeCYUtmzTvUp-Zc"
+          "current_key": "AIzaSyAnoeKaQ56QOjMP3TJnXAfF6yR9Mu1rZQw"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "909175082291-cke1k65rj8q4jg9vu8u6kuqleoorgrif.apps.googleusercontent.com",
+              "client_id": "1011594200107-j5qg0r4uqqhkdm58kd2rjirs92fjue1a.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

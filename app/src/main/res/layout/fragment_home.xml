@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:layout_editor_absoluteY="25dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,49 +15,79 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_shareWifi"
-            android:layout_width="85dp"
+            android:layout_width="95dp"
             android:layout_height="83dp"
-            android:layout_marginBottom="178dp"
+            android:layout_marginTop="31dp"
             android:clickable="true"
             app:backgroundTint="@android:color/holo_green_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/fab_getWifi"
-            app:layout_constraintTop_toBottomOf="@+id/fab_getWifi"
-            app:srcCompat="@drawable/ic_search_wireless_net" />
+            app:layout_constraintStart_toStartOf="@+id/textView_getwifi"
+            app:layout_constraintTop_toBottomOf="@+id/textView_getwifi"
+            app:srcCompat="@drawable/ic_router"
+            tools:ignore="VectorDrawableCompat" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_getWifi"
-            android:layout_width="82dp"
-            android:layout_height="85dp"
-            android:layout_marginBottom="119dp"
-            android:layout_marginTop="134dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginStart="16dp"
             android:clickable="true"
             app:backgroundTint="@android:color/holo_green_light"
-            app:layout_constraintBottom_toTopOf="@+id/fab_shareWifi"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_shareWifi"
+            app:layout_constraintEnd_toEndOf="@+id/textView_sharewifi"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_router" />
+            app:layout_constraintTop_toTopOf="@+id/fab_shareWifi"
+            app:srcCompat="@drawable/ic_search_wireless_net"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView_sharewifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:text="Share Your Wifi:"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:text="Serch For Wifi:"
             android:textColor="@android:color/holo_green_light"
-            app:layout_constraintStart_toStartOf="@+id/fab_getWifi"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_getwifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="44dp"
-            android:text="Serch For Wifi:"
+            android:layout_marginBottom="145dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="44dp"
+            android:text="Share Your Wifi:"
             android:textColor="@android:color/holo_green_light"
-            app:layout_constraintBottom_toTopOf="@+id/fab_shareWifi"
-            app:layout_constraintStart_toStartOf="@+id/fab_shareWifi" />
+            app:layout_constraintBottom_toTopOf="@+id/list_view_peers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/list_view_peers"
+            android:layout_width="170dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="55dp"
+            android:layout_marginEnd="57dp"
+            android:layout_marginTop="208dp"
+            app:layout_constraintBottom_toTopOf="@+id/fab_stop_connection"
+            app:layout_constraintEnd_toEndOf="@+id/fab_shareWifi"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_stop_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="17dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_view_peers"
+            app:srcCompat="@drawable/ic_stop"
+            tools:ignore="VectorDrawableCompat" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

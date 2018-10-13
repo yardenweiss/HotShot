@@ -22,25 +22,26 @@ public class DataUsage {
     private WifiManager wifiManager;
     private long startRecive;
     private long  startDown  ;
-    private float totalMb;
+    private float totalDateUsageMb = 0;
 
     public DataUsage(WifiManager _wifiManager){wifiManager=_wifiManager;}
 
-    public void StartCountDataUsage(  ){
+    public void StartCountDataUsage(  ) {
         startRecive = TrafficStats.getTotalRxBytes();
         startDown = TrafficStats.getTotalTxBytes();
 
-        while(wifiManager.getWifiState()!= WifiManager.WIFI_STATE_DISABLED)
-        {
-            SystemClock.sleep(500);
-        }
-        EndCountDataUsage();
     }
 
-    public void EndCountDataUsage(){
-        long TotalRecive = TrafficStats.getTotalRxBytes() - startRecive;
-        long ToalDwon = TrafficStats.getTotalTxBytes() - startDown;
-        float totalMb = (float)(TotalRecive + ToalDwon)/(1024*1024);
-        Log.i(TAG,"delta  = "+(float)totalMb/(1024*1024));
+    public float GetTotalMb(){
+        return totalDateUsageMb;
+    }
+
+    public float GetStateOfUsage(){
+        long recive = TrafficStats.getTotalRxBytes() - startRecive;
+        long dwon = TrafficStats.getTotalTxBytes() - startDown;
+        float dataUsage = (float)(recive + dwon)/(1024*1024);
+        Log.i(TAG,"delta  = "+(float)dataUsage/(1024*1024));
+        totalDateUsageMb += dataUsage;
+        return dataUsage;
     }
 }
