@@ -62,6 +62,7 @@ public class P2PWifi implements Serializable {
     private ArrayList<ServerReciveEventListener> serverReciveEventListeners;
     // tmp param
     boolean mIsClient = true;
+    boolean mIsConnectionEstablished = false;
 
     public P2PWifi(Context _context, MainActivity _activity, WifiP2pManager wifiP2pManager,
                    WifiP2pManager.Channel channel) {
@@ -75,6 +76,10 @@ public class P2PWifi implements Serializable {
         clientReciveEventListeners = new ArrayList<>();
         serverReciveEventListeners = new ArrayList<>();
         changeName();
+    }
+
+    public boolean IsConnectionEstablished() {
+        return mIsConnectionEstablished;
     }
 
     public ArrayAdapter<String> getmPeersAdapter() {
@@ -137,7 +142,7 @@ public class P2PWifi implements Serializable {
                 }
             });
 
-           /* mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
                 @Override
                 public void onSuccess() {
                     Toast.makeText(context, "Connected to " + device.deviceName, Toast.LENGTH_SHORT).show();
@@ -147,7 +152,7 @@ public class P2PWifi implements Serializable {
                 public void onFailure(int i) {
                     Toast.makeText(context, "Not Connected", Toast.LENGTH_SHORT).show();
                 }
-            });*/
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,6 +196,7 @@ public class P2PWifi implements Serializable {
                     readBuff = (byte[]) msg.obj;
                     answerMsg = new String(readBuff, 0, msg.arg1);
                     notifyAllServerReceiveListeners();
+                    mIsConnectionEstablished = true;
                     //can close the wifi - sharewifi need to close the wifi and turn on the hot spot
             }
             return true;

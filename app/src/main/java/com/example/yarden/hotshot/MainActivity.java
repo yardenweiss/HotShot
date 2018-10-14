@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -19,16 +19,12 @@ import com.example.yarden.hotshot.Client.ClientManager;
 import com.example.yarden.hotshot.Fragments.HomeFragment;
 import com.example.yarden.hotshot.Fragments.MyActivityFragment;
 import com.example.yarden.hotshot.Fragments.ProfileFragment;
-import com.example.yarden.hotshot.Utils.P2PWifi;
 import com.example.yarden.hotshot.Provider.ShareWifi;
+import com.example.yarden.hotshot.Utils.P2PWifi;
 import com.example.yarden.hotshot.Utils.User;
-
 import com.example.yarden.hotshot.Utils.WifiClientBroadcastReceiver;
-import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -68,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
-                Arrays.asList( new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.GoogleBuilder().build()))
-                .build() , 1);
+        //startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
+        //       Arrays.asList( new AuthUI.IdpConfig.EmailBuilder().build(),
+        //               new AuthUI.IdpConfig.GoogleBuilder().build()))
+        //      .build() , 1);
 
 
         if(savedInstanceState == null)
@@ -80,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+    }
+
+    public WifiManager getWifiManager() {
+        return mWifiManager;
     }
 
     public P2PWifi getP2PWifi() {
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
+        mIntentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
     }
 
     @Override

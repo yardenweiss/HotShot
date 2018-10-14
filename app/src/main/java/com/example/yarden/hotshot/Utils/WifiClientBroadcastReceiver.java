@@ -1,13 +1,18 @@
 package com.example.yarden.hotshot.Utils;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.widget.Toast;
 
 import com.example.yarden.hotshot.MainActivity;
+
+import java.util.List;
 
 
 public class WifiClientBroadcastReceiver extends BroadcastReceiver {
@@ -62,6 +67,11 @@ public class WifiClientBroadcastReceiver extends BroadcastReceiver {
         }else if(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)){
             WifiP2pDevice myDevice =(WifiP2pDevice)intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
             DeviceName = myDevice.deviceName;
+        }
+        else if(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)){
+            if(mActivity.getP2PWifi().IsConnectionEstablished()){
+                List<ScanResult> mScanResult = mActivity.getWifiManager().getScanResults();
+            }
         }
 
     }
