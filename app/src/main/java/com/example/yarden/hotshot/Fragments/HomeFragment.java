@@ -10,10 +10,12 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -83,8 +85,9 @@ public class HomeFragment extends Fragment implements PeersEventListener , Serve
          shareWifi = new ShareWifi(p2PWifi , wifiManager );
         shareWifi.setPeerEventListener(this);
         p2PWifi.setServerReciveEventListeners(this);
+        p2PWifi.setClientReciveEventListeners(getWifi);
 
-        ListView list = (ListView)getActivity().findViewById(R.id.list_view_peers);
+        final ListView list = (ListView)getActivity().findViewById(R.id.list_view_peers);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -115,8 +118,10 @@ public class HomeFragment extends Fragment implements PeersEventListener , Serve
 
         FloatingActionButton fab_shareWifi = (FloatingActionButton) mainActivity.findViewById(R.id.fab_shareWifi);
         fab_shareWifi.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+              list.setVisibility(View.VISIBLE);
                 mIsClient = false;
                 try {
                     Toast.makeText(getActivity(), "Searching for available Wifi",

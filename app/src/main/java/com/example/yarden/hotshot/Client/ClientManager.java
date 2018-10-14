@@ -4,15 +4,12 @@ package com.example.yarden.hotshot.Client;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 
 
-import com.example.yarden.hotshot.MainActivity;
-import com.example.yarden.hotshot.Provider.ClientReciveEventListener;
 import com.example.yarden.hotshot.Utils.P2PWifi;
 import com.example.yarden.hotshot.Utils.UpdateDataBase;
 import com.example.yarden.hotshot.Utils.User;
