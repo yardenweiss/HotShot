@@ -14,8 +14,9 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-import com.example.yarden.hotshot.MainActivity;
+
 import com.example.yarden.hotshot.Client.ClientReciveEventListener;
+import com.example.yarden.hotshot.MainActivity;
 import com.example.yarden.hotshot.Provider.ConnectionEstablishedInterface;
 import com.example.yarden.hotshot.Provider.PeersEventListener;
 import com.example.yarden.hotshot.Provider.ServerReciveEventListener;
@@ -62,7 +63,8 @@ public class P2PWifi implements Serializable {
     private ArrayList<ServerReciveEventListener> serverReciveEventListeners;
     // tmp param
     boolean mIsClient = true;
-    private boolean startConnection = false;
+    boolean mIsConnectionEstablished = false;
+
     public P2PWifi(Context _context, MainActivity _activity, WifiP2pManager wifiP2pManager,
                    WifiP2pManager.Channel channel) {
         context = _context;
@@ -75,6 +77,10 @@ public class P2PWifi implements Serializable {
         clientReciveEventListeners = new ArrayList<>();
         serverReciveEventListeners = new ArrayList<>();
         changeName();
+    }
+
+    public boolean IsConnectionEstablished() {
+        return mIsConnectionEstablished;
     }
 
     public ArrayAdapter<String> getmPeersAdapter() {
@@ -119,29 +125,15 @@ public class P2PWifi implements Serializable {
 
     public void connectToDevice(int i) {
         final WifiP2pDevice device = deviceArray[i];
-        final WifiP2pConfig config = new WifiP2pConfig();
+        WifiP2pConfig config = new WifiP2pConfig();
         if(!mIsClient) {
-            config.groupOwnerIntent = 14;
+            config.groupOwnerIntent = 15;
         }
         config.deviceAddress = device.deviceAddress;
         try {
             mManager.createGroup(mChannel, new WifiP2pManager.ActionListener() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(context, "Create group", Toast.LENGTH_SHORT).show();
-
-                }
-
-                @Override
-                public void onFailure(int i) {
-                    Toast.makeText(context, "Create grouop failed", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-                @Override
-                public void onSuccess() {
-                    startConnection=true;
                     Toast.makeText(context, "Connected to " + device.deviceName, Toast.LENGTH_SHORT).show();
                 }
 
@@ -151,9 +143,17 @@ public class P2PWifi implements Serializable {
                 }
             });
 
+            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(context, "Connected to " + device.deviceName, Toast.LENGTH_SHORT).show();
+                }
 
-//
-
+                @Override
+                public void onFailure(int i) {
+                    Toast.makeText(context, "Not Connected", Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,7 +167,7 @@ public class P2PWifi implements Serializable {
 
             m.invoke(mManager,mChannel , "HotShot", new WifiP2pManager.ActionListener() {
                 public void onSuccess() {
-                   Log.d("ChangeName", "success");
+                    Log.d("ChangeName", "success");
                 }
 
                 public void onFailure(int reason) {
@@ -197,6 +197,7 @@ public class P2PWifi implements Serializable {
                     readBuff = (byte[]) msg.obj;
                     answerMsg = new String(readBuff, 0, msg.arg1);
                     notifyAllServerReceiveListeners();
+                    mIsConnectionEstablished = true;
                     //can close the wifi - sharewifi need to close the wifi and turn on the hot spot
             }
             return true;
@@ -284,11 +285,11 @@ public class P2PWifi implements Serializable {
                 @Override
                 public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
                     final InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
-                    if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner && !mIsClient && startConnection) // Host
+                    if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner && serverClass==null) // Host
                     {
                         serverClass = new ServerClass();
                         serverClass.start();
-                    } else if (wifiP2pInfo.groupFormed  && mIsClient && startConnection) // Client
+                    } else if (wifiP2pInfo.groupFormed && clientClass==null) // Client
                     {
                         clientClass = new ClientClass(groupOwnerAddress);
                         clientClass.start();
@@ -309,7 +310,7 @@ public class P2PWifi implements Serializable {
         @Override
         public void run() {
             try {
-                serverSocket=new ServerSocket(8889);
+                serverSocket=new ServerSocket(8888);
                 socket=serverSocket.accept();
                 sendReceive = new SendReceive(socket);
                 sendReceive.start();
@@ -345,7 +346,7 @@ public class P2PWifi implements Serializable {
         @Override
         public void run() {
             try {
-                socket.connect(new InetSocketAddress(hostAdd,8889),500);
+                socket.connect(new InetSocketAddress(hostAdd,8888),500);
                 sendReceive=new SendReceive(socket);
                 isSendReciveNull = false;
                 sendReceive.start();
