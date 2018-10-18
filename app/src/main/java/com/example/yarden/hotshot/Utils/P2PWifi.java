@@ -15,11 +15,11 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.yarden.hotshot.Client.ClientReciveEventListener;
+import com.example.yarden.hotshot.Client.IClientReciveEventListener;
 import com.example.yarden.hotshot.MainActivity;
-import com.example.yarden.hotshot.Provider.ConnectionEstablishedInterface;
-import com.example.yarden.hotshot.Provider.PeersEventListener;
-import com.example.yarden.hotshot.Provider.ServerReciveEventListener;
+import com.example.yarden.hotshot.Provider.IConnectionEstablishedInterface;
+import com.example.yarden.hotshot.Provider.IPeersEventListener;
+import com.example.yarden.hotshot.Provider.IServerReciveEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,10 +57,10 @@ public class P2PWifi implements Serializable {
     private ArrayAdapter<String> mPeersAdapter;
 
     // EventHandlers
-    private ArrayList<PeersEventListener> peersEventListeners;
-    private ArrayList<ConnectionEstablishedInterface> connectionEstablishedEventListeners;
-    private ArrayList<ClientReciveEventListener> clientReciveEventListeners;
-    private ArrayList<ServerReciveEventListener> serverReciveEventListeners;
+    private ArrayList<IPeersEventListener> peersEventListeners;
+    private ArrayList<IConnectionEstablishedInterface> connectionEstablishedEventListeners;
+    private ArrayList<IClientReciveEventListener> clientReciveEventListeners;
+    private ArrayList<IServerReciveEventListener> serverReciveEventListeners;
     // tmp param
     boolean mIsClient = true;
     boolean mIsConnectionEstablished = false;
@@ -207,42 +207,42 @@ public class P2PWifi implements Serializable {
     // Events
 
     private void notifyAllPeersListeners(){
-        for(PeersEventListener listener: peersEventListeners){
+        for(IPeersEventListener listener: peersEventListeners){
             listener.OnPeersAppearEvent(mPeersAdapter);
         }
     }
 
-    public void setPeerEventListener(PeersEventListener i_listener){
+    public void setPeerEventListener(IPeersEventListener i_listener){
         peersEventListeners.add(i_listener);
     }
 
     private void notifyAllConnectionListeners(){
-        for(ConnectionEstablishedInterface listener : connectionEstablishedEventListeners ){
+        for(IConnectionEstablishedInterface listener : connectionEstablishedEventListeners ){
             listener.SendInfo(sendReceive);
         }
     }
 
-    public void setConnectionEstablishedEventListeners(ConnectionEstablishedInterface i_listener){
+    public void setConnectionEstablishedEventListeners(IConnectionEstablishedInterface i_listener){
         connectionEstablishedEventListeners.add(i_listener);
     }
 
     private void notifyAllClientReceiveListeners(){
-        for(ClientReciveEventListener listener : clientReciveEventListeners ){
+        for(IClientReciveEventListener listener : clientReciveEventListeners ){
             listener.handelMessage(answerMsg);
         }
     }
 
     private void notifyAllServerReceiveListeners(){
-        for(ServerReciveEventListener listener : serverReciveEventListeners){
+        for(IServerReciveEventListener listener : serverReciveEventListeners){
             listener.handelMessage(answerMsg);
         }
     }
 
-    public void setClientReciveEventListeners(ClientReciveEventListener listener){
+    public void setClientReciveEventListeners(IClientReciveEventListener listener){
         clientReciveEventListeners.add(listener);
     }
 
-    public void setServerReciveEventListeners(ServerReciveEventListener listener){
+    public void setServerReciveEventListeners(IServerReciveEventListener listener){
         serverReciveEventListeners.add(listener);
     }
 

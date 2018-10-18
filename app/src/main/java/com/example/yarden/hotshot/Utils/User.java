@@ -24,8 +24,7 @@ public class User {
     private FirebaseUser firebaseUser ;
 
     public String GetFirebaseUserUid() {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        firebaseUid= firebaseUser.getUid();
+        firebaseUid = FirebaseAuthInstance.getUid();
         return firebaseUid;
     }
 

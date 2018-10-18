@@ -31,19 +31,18 @@ import android.widget.Toast;
 
 import com.example.yarden.hotshot.Client.ClientManager;
 import com.example.yarden.hotshot.MainActivity;
-import com.example.yarden.hotshot.Provider.PeersEventListener;
-import com.example.yarden.hotshot.Provider.ServerReciveEventListener;
+import com.example.yarden.hotshot.Provider.IPeersEventListener;
+import com.example.yarden.hotshot.Provider.IServerReciveEventListener;
 import com.example.yarden.hotshot.Provider.ShareWifi;
 import com.example.yarden.hotshot.R;
 import com.example.yarden.hotshot.Utils.P2PWifi;
+import com.example.yarden.hotshot.Utils.UpdateDataBase;
 import com.example.yarden.hotshot.Utils.User;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.Method;
-
-public class HomeFragment extends Fragment implements PeersEventListener , ServerReciveEventListener {
+public class HomeFragment extends Fragment implements IPeersEventListener, IServerReciveEventListener {
     private WifiManager wifiManager;
     private WifiP2pManager wifiP2pManager;
     private BroadcastReceiver mReceiver;
@@ -104,14 +103,19 @@ public class HomeFragment extends Fragment implements PeersEventListener , Serve
 
             @Override
             public void onClick(View view) {
-                mIsClient = true;
+                User providerUser = new User();
+                providerUser.setGetFirebaseUidProvider("Neg3J79J9shXHxyQYT2mTPDO84a2");
+                User clientUser = new User();
+                UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, wifiManager);
+                updateDataBase.start();
+             /*   mIsClient = true;
                 try{
                     // here request permission
                    checkPermissionsAndAction();
                 }
                 catch (Exception e){
                     e.printStackTrace();
-                }
+                }*/
             }
         });
 

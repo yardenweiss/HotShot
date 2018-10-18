@@ -121,20 +121,6 @@
             android:text="Wifi that i can use: " />
 
         <TextView
-            android:id="@+id/textView_wifi_proviedr"
-            android:layout_width="54dp"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView_email"
-            android:layout_alignTop="@+id/imageView" />
-
-        <TextView
-            android:id="@+id/textView_wifi_get"
-            android:layout_width="51dp"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView_email"
-            android:layout_alignTop="@+id/imageView2" />
-
-        <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -150,7 +136,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/textView"
             android:layout_marginBottom="224dp"
-            android:text="0.5GB 1$" />
+            android:text="1GB 1$" />
 
         <RadioButton
             android:id="@+id/radioButton_2"

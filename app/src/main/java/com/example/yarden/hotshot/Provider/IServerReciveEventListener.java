@@ -1,5 +1,5 @@
 package com.example.yarden.hotshot.Provider;
 
-public interface ServerReciveEventListener {
+public interface IServerReciveEventListener {
     void handelMessage(String msg);
 }

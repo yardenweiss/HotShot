@@ -16,7 +16,7 @@ import com.example.yarden.hotshot.Utils.User;
 import java.util.Calendar;
 import java.util.List;
 
-public class ClientManager implements ClientReciveEventListener {
+public class ClientManager implements IClientReciveEventListener {
 
     private P2PWifi p2pWifi;
     private  WifiP2pManager mManager;

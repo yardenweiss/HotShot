@@ -30,25 +30,26 @@ public class UpdateDataBase extends Thread {
     private WifiManager wifiManager;
     private DatabaseReference databaseRef;
     private Date date;
+    private float totalUage =0;
 
     public UpdateDataBase(User _userProvider, User _userClient ,WifiManager _wifiManager) {
         wifiManager = _wifiManager;
         dataUsage = new DataUsage(wifiManager);
         dataUsage.StartCountDataUsage();
-        uidClient = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uidClient = FirebaseAuthInstance.getUid();
         userProvider = _userProvider;
         userClient = _userClient;
-        databaseRef = FirebaseDatabase.getInstance().getReference();
+        databaseRef = FirebaseAuthInstance.getDatabaseRef();
+        updateDatabase();
     }
 
     @Override
     public void run() {
-
         dataUsage.StartCountDataUsage();
         float mb = 0;
         dataUsage.StartCountDataUsage();
         date = new Date();
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Format formatter = new SimpleDateFormat("yy-mm-dd hh:mm");
         String dateFormat = formatter.format(date);
         WifiInfo info = wifiManager.getConnectionInfo();
         String ssid = info.getSSID();
@@ -57,8 +58,12 @@ public class UpdateDataBase extends Thread {
             try {
                 Thread.sleep(500);
                 mb = dataUsage.GetStateOfUsage();
+                totalUage += mb;
                 databaseRef.child(userProvider.GetFirebaseUserUid()).child(dateFormat).child("shareWifi").setValue(mb);
                 databaseRef.child(uidClient).child(dateFormat).child("getWifi").setValue(mb);
+//update
+
+
             } catch (InterruptedException e) {
 
                 e.printStackTrace();
@@ -66,6 +71,38 @@ public class UpdateDataBase extends Thread {
         }
 
     }
+
+ private void updateDatabase(){
+        try {
+            databaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //update client data
+                    Float mbGet = dataSnapshot.child(uidClient).child("TotalGetMB").getValue(Float.class);
+                    if(mbGet!=null) {
+                        mbGet -= totalUage;
+                        databaseRef.child(uidClient).child("TotalGetMB").setValue(mbGet);
+                    }
+                    //update provider data
+                    Float mbShare = dataSnapshot.child(userProvider.getFirebaseUidProvider()).child("TotalProviedMB").getValue(Float.class);
+                    if(mbShare!=null) {
+                        mbShare -= totalUage;
+                        databaseRef.child(userProvider.getFirebaseUidProvider()).child("TotalProviedMB").setValue(mbShare);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

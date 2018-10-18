@@ -1,21 +1,13 @@
 package com.example.yarden.hotshot.Provider;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pManager;
-import android.provider.Settings;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 
+import com.example.yarden.hotshot.Utils.FirebaseAuthInstance;
 import com.example.yarden.hotshot.Utils.P2PWifi;
-import com.example.yarden.hotshot.Utils.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,12 +15,12 @@ import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
 
-public class ShareWifi  implements PeersEventListener, ConnectionEstablishedInterface   {
+public class ShareWifi  implements IPeersEventListener, IConnectionEstablishedInterface {
 
     private P2PWifi p2pWifi;
     private WifiManager m_wifiManager;
     private WifiConfiguration m_wifiConf;
-    private ArrayList<PeersEventListener> mPeersEventListeners;
+    private ArrayList<IPeersEventListener> mPeersEventListeners;
     private ArrayAdapter<String> mPeersStringAdapter;
     private String message;
 
@@ -60,18 +52,17 @@ public class ShareWifi  implements PeersEventListener, ConnectionEstablishedInte
     }
 
     private void notifyAllListeners(){
-        for(PeersEventListener listener: mPeersEventListeners){
+        for(IPeersEventListener listener: mPeersEventListeners){
             listener.OnPeersAppearEvent(mPeersStringAdapter);
         }
     }
 
-    public void setPeerEventListener(PeersEventListener i_listener){
+    public void setPeerEventListener(IPeersEventListener i_listener){
         mPeersEventListeners.add(i_listener);
     }
 
     public String HotSpotConnectionInfo(){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        return message +  firebaseUser.getUid();
+        return message + FirebaseAuthInstance.getUid();
 
     }
 
