@@ -36,8 +36,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-
-@SuppressLint("ValidFragment")
 public class ProfileFragment extends Fragment {
 
     private RadioButton radioButton1;
@@ -66,11 +64,6 @@ public class ProfileFragment extends Fragment {
     private  String EMPTY_GB = "0";
     private  String GB = "GB";
 
-    @SuppressLint("ValidFragment")
-    public ProfileFragment(FirebaseUser _firebaseUser)
-    {
-        firebaseUser = _firebaseUser;
-    }
 
     @Nullable
     @Override
@@ -132,8 +125,9 @@ public class ProfileFragment extends Fragment {
             radioButton2 = (RadioButton) activity.findViewById(R.id.radioButton_2);
             radioButton5 = (RadioButton) activity.findViewById(R.id.radioButton_5);
             button_pay = (Button) activity.findViewById(R.id.button_pay);
-            String email = firebaseUser.getEmail();
-            textView_email.setText(email);
+          /*  String email = FirebaseAuthInstance.getFirebaseUser().getEmail();
+            if(email != null)
+               textView_email.setText(email);*/
 
 
             logout.setOnClickListener(new View.OnClickListener() {

@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.example.yarden.hotshot.Client.DataSaveLocaly;
 import com.example.yarden.hotshot.MainActivity;
-import com.example.yarden.hotshot.Provider.IPeersEventListener;
 import com.example.yarden.hotshot.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

@@ -41,6 +41,11 @@ public class FirebaseAuthInstance {
         return firebaseUser;
     }
 
+    public static void setFirebaseUser(FirebaseUser _firebaseUser)
+    {
+        firebaseUser=_firebaseUser;
+    }
+
     public static DatabaseReference getDatabaseRef(){
         if(databaseReference == null)
         {

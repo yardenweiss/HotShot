@@ -9,32 +9,29 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 
-
-import com.example.yarden.hotshot.Utils.P2PWifi;
+import com.example.yarden.hotshot.MainActivity;
 import com.example.yarden.hotshot.Utils.UpdateDataBase;
 import com.example.yarden.hotshot.Utils.User;
 import java.util.Calendar;
 import java.util.List;
 
-public class ClientManager implements IClientReciveEventListener {
+public class ClientManager implements IClientReciveEventListener,IWifiFaoundEventListener {
 
-    private P2PWifi p2pWifi;
     private  WifiP2pManager mManager;
     private WifiManager m_wifiManager;
     private WifiConfiguration m_wifiConf;
     private User providerUser;
-    private Context context;
     private User clientUser;
     private String message;
     private  int netId;
+    private MainActivity mActivity;
     private static final int MINUTE_5 = 300;
 
-    public ClientManager(P2PWifi _p2pWifi, WifiManager wifiManager, Context _context)
+    public ClientManager(WifiManager wifiManager, MainActivity Activity)
     {
+        mActivity = Activity;
         m_wifiManager = wifiManager;
         m_wifiConf = new WifiConfiguration();
-        p2pWifi = _p2pWifi;
-        context = _context;
     }
 
 
@@ -54,13 +51,11 @@ public class ClientManager implements IClientReciveEventListener {
             m_wifiManager.setWifiEnabled(true);
     }
 
-
+// TODO resume dataBase
     public void run()
     {
-        SettingProvider();
-        checkIfHotspotAvailable();
         connectToWifi();
-        UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, context);
+        UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, mActivity.getApplicationContext());// TODO -- YARDEN
         updateDataBase.start();
     }
 
@@ -74,7 +69,7 @@ public class ClientManager implements IClientReciveEventListener {
         providerUser = new User();
         providerUser.setSsid(parts[0]);
         providerUser.setHotspotPassword(parts[1]);
-        providerUser.setGetFirebaseUidProvider(parts[2]);
+        //providerUser.setGetFirebaseUidProvider(parts[2]);
         clientUser = new User();
     }
 
@@ -93,11 +88,15 @@ public class ClientManager implements IClientReciveEventListener {
 
     }
 
+    public String getSSID(){
+        return providerUser.getSsid();
+    }
+
     @Override
     public void handelMessage(String msg) {
         message = msg;
-        p2pWifi.WriteConfirmation("MassegeRecived!!!");
-        run();
+        SettingProvider();
+
     }
 
     private final BroadcastReceiver mWifiScanReceiver = new BroadcastReceiver() {
@@ -111,5 +110,8 @@ public class ClientManager implements IClientReciveEventListener {
     };
 
 
-
+    @Override
+    public void StartConnection() {
+        run();
+    }
 }
