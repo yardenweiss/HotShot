@@ -57,20 +57,6 @@ public class User {
 
 
 
-    public String GetEmail(){
-
-        return firebaseUser.getEmail();
-    }
-
-    public void UpdateEmail(String email){
-
-        firebaseUser.updateEmail(email);
-    }
-
-    public void Logout(){
-        firebaseUser.delete();
-    }
-
 
 
 }
