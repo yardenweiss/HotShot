@@ -45,16 +45,18 @@ public class UpdateDataBase extends Thread {
         dataUsage = new DataUsage(wifiManager);
         context = _context;
         dataUsage.StartCountDataUsage();
-        uidClient = FirebaseAuthInstance.getUid();
         userProvider = _userProvider;
         userClient = _userClient;
-        databaseRef = FirebaseAuthInstance.getDatabaseRef();
+
         dataSaveLocaly = new DataSaveLocaly(context);
         GetUpdateFromDatabase();
     }
 
     @Override
     public void run() {
+        uidClient = FirebaseAuthInstance.getUid();
+        databaseRef = FirebaseAuthInstance.getDatabaseRef();
+        //move to ctor
         dataUsage.StartCountDataUsage();
         float mb = 0;
         dataUsage.StartCountDataUsage();

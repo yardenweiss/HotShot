@@ -92,13 +92,13 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
         shareWifi.setPeerEventListener(this);
         p2PWifi.setServerReciveEventListeners(this);
         p2PWifi.setClientReciveEventListeners(getWifi);
-
-        //yarden - delete after logic complete
-         providerUser = new User();
-        providerUser.setGetFirebaseUidProvider("lvbDgu0zk4MGEktlCOvRdONeKUi2");
-         clientUser = new User();
-        updateDataBase = new UpdateDataBase(providerUser ,clientUser, wifiManager , getContext());
-
+        
+         try {
+             updateDataBase = new UpdateDataBase(providerUser, clientUser, wifiManager, mainActivity.getBaseContext());
+         }catch (Exception e)
+         {
+             e.printStackTrace();
+         }
 
         final ListView list = (ListView)getActivity().findViewById(R.id.list_view_peers);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,14 +117,14 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
 
             @Override
             public void onClick(View view) {
-             /*   mIsClient = true;
+                mIsClient = true;
                 try{
                     // here request permission
                    checkPermissionsAndAction();
                 }
                 catch (Exception e){
                     e.printStackTrace();
-                }*/
+                }
             }
         });
 
@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
                     Manifest.permission.CHANGE_WIFI_STATE,
                     Manifest.permission.INTERNET},MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
         }else{
-            p2PWifi.StartDiscoveringP2P(mIsClient);
+          //  p2PWifi.StartDiscoveringP2P(mIsClient);
         }
     }
 

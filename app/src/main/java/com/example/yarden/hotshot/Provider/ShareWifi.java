@@ -33,7 +33,7 @@ public class ShareWifi  implements IPeersEventListener, IConnectionEstablishedIn
         mPeersEventListeners = new ArrayList<>();
         p2pWifi.setPeerEventListener(this);
         p2pWifi.setConnectionEstablishedEventListeners(this);
-        getHotspotInfo();
+       // getHotspotInfo();
     }
 
 
@@ -75,7 +75,8 @@ public class ShareWifi  implements IPeersEventListener, IConnectionEstablishedIn
 
 public void getHotspotInfo(){
 
-    Method[] methods = m_wifiManager.getClass().getDeclaredMethods();
+
+    /*Method[] methods = m_wifiManager.getClass().getDeclaredMethods();
     for (Method m: methods) {
         if (m.getName().equals("getWifiApConfiguration")) {
             try {
@@ -88,7 +89,7 @@ public void getHotspotInfo(){
             }
 
         }
-    }
+    }*/
 }
 
 }

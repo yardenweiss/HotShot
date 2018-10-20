@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.Nullable;
@@ -32,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
                 Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build())).build() , 1);
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+       // firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(savedInstanceState == null)
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
@@ -169,4 +171,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NotificationManager notificationManager =(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1,notification.build());
     }
+
 }
