@@ -40,26 +40,6 @@
             android:layout_marginTop="18dp"
             android:text="Profile" />
 
-        <Button
-            android:id="@+id/button_pay"
-            android:layout_width="88dp"
-            android:layout_height="23dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginBottom="106dp"
-            android:background="@drawable/buttonshape"
-            android:text="pay" />
-
-        <Button
-            android:id="@+id/button_sign_out2"
-            android:layout_width="88dp"
-            android:layout_height="23dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/textView"
-            android:layout_marginEnd="14dp"
-            android:background="@drawable/buttonshape"
-            android:text="Sign Out" />
-
         <View
             android:id="@+id/line1"
             android:layout_width="384dp"
@@ -156,6 +136,15 @@
             android:layout_marginTop="-178dp"
             android:text="5GB 5$" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="354dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="27dp"
+            android:text="Dear Provider , We'll contact you for bank account information once revenue from your web share is accrued" />
+
 
     </RelativeLayout>
 
@@ -185,7 +174,7 @@
         android:text="Profile" />
 
     <Button
-        android:id="@+id/button_pay"
+        android:id="@+id/button_sign_out"
         android:layout_width="88dp"
         android:layout_height="23dp"
         android:layout_alignParentEnd="true"
@@ -194,11 +183,21 @@
         android:background="@drawable/buttonshape"
         android:text="Sign Out" />
 
+    <Button
+        android:id="@+id/button_pay"
+        android:layout_width="88dp"
+        android:layout_height="23dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="106dp"
+        android:background="@drawable/buttonshape"
+        android:text="pay" />
+
     <TextView
         android:id="@+id/textView_email"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button_pay"
+        android:layout_alignBottom="@+id/button_sign_out"
         android:layout_alignStart="@+id/textView" />
 
     <View

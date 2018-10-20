@@ -1,4 +1,5 @@
 package com.example.yarden.hotshot.Fragments;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +18,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yarden.hotshot.Client.DataSaveLocaly;
-import com.example.yarden.hotshot.MainActivity;
 import com.example.yarden.hotshot.R;
 import com.example.yarden.hotshot.Utils.ConfigPaypal;
 import com.example.yarden.hotshot.Utils.FirebaseAuthInstance;
-import com.google.firebase.auth.FirebaseAuth;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 
-import java.io.File;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Arrays;
 
 
+@SuppressLint("ValidFragment")
 public class ProfileFragment extends Fragment {
 
     private RadioButton radioButton1;
@@ -48,10 +49,12 @@ public class ProfileFragment extends Fragment {
     private Button button_pay;
     private Button logout;
     private TextView textView_email;
+    private FirebaseUser firebaseUser;
     private Integer pay;
     private Activity activity ;
     private DatabaseReference myRef ;
     private String uid;
+    private DecimalFormat decimalFormat;
     private  Float mbGet = null;
     private Float mbProvied ;
     private DataSaveLocaly localyInfo;
@@ -60,7 +63,14 @@ public class ProfileFragment extends Fragment {
     private  Integer USD_1 = 1;
     private  Integer USD_2 = 2;
     private  Integer USD_5 = 5;
+    private  String EMPTY_GB = "0";
+    private  String GB = "GB";
 
+    @SuppressLint("ValidFragment")
+    public ProfileFragment(FirebaseUser _firebaseUser)
+    {
+        firebaseUser = _firebaseUser;
+    }
 
     @Nullable
     @Override
@@ -77,6 +87,8 @@ public class ProfileFragment extends Fragment {
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION , config);
         activity.startService(intent);
         myRef = FirebaseAuthInstance.getDatabaseRef();
+        decimalFormat = new DecimalFormat();
+        decimalFormat.setMaximumFractionDigits(2);
         textView_mb_get = (TextView)activity.findViewById(R.id.textView_wifi_get);
         textView_mb_share = (TextView)activity.findViewById(R.id.textView_wifi_proviedr);
         localyInfo = new DataSaveLocaly(activity.getBaseContext());
@@ -101,7 +113,7 @@ public class ProfileFragment extends Fragment {
                    mbGet = pay.floatValue();
                 else
                     mbGet += pay;
-                myRef.child(uid).child("TotalGetMB").setValue(mbGet);
+                myRef.child(uid).child("TotalGetGB").setValue(mbGet);
             }
             else
             {
@@ -115,13 +127,13 @@ public class ProfileFragment extends Fragment {
 
             pay = USD_0;
             textView_email = (TextView) activity.findViewById(R.id.textView_email);
-            logout = (Button) activity.findViewById(R.id.button_sign_out2);
+            logout = (Button) activity.findViewById(R.id.button_sign_out);
             radioButton1 = (RadioButton) activity.findViewById(R.id.radioButton_0_5);
             radioButton2 = (RadioButton) activity.findViewById(R.id.radioButton_2);
             radioButton5 = (RadioButton) activity.findViewById(R.id.radioButton_5);
             button_pay = (Button) activity.findViewById(R.id.button_pay);
-            //   String email = FirebaseAuthInstance.getFirebaseUser().getEmail();
-//             textView_email.setText(email);
+            String email = firebaseUser.getEmail();
+            textView_email.setText(email);
 
 
             logout.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +141,8 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View v) {
 
                     FirebaseAuthInstance.getFirebaseAuth().signOut();
+                    startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
+                            Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build())).build() , 1);
                 }
             });
 
@@ -198,23 +212,23 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //client
-                     mbGet = dataSnapshot.child(uid).child("TotalGetMB").getValue(Float.class);
+                     mbGet = dataSnapshot.child(uid).child("TotalGetGB").getValue(Float.class);
                      if(mbGet != null)
                      {
-                         textView_mb_get.setText(mbGet.toString());
+                         textView_mb_get.setText(decimalFormat.format(mbGet).toString() + GB);
                          localyInfo.writeToFile(mbGet.toString());
                      }
                      else
                      {
-                         textView_mb_get.setText("0mb");
+                         textView_mb_get.setText(EMPTY_GB + GB);
                      }
 
                     //provider
-                    mbProvied = dataSnapshot.child(uid).child("TotalProviedMB").getValue(Float.class);
+                    mbProvied = dataSnapshot.child(uid).child("TotalProviedGB").getValue(Float.class);
                     if(mbProvied == null)
-                        textView_mb_share.setText("0mb");
+                        textView_mb_share.setText(EMPTY_GB + GB);
                     else
-                         textView_mb_share.setText(mbProvied.toString());
+                         textView_mb_share.setText(decimalFormat.format(mbProvied).toString() + GB);
                 }
 
                 @Override
@@ -226,14 +240,17 @@ public class ProfileFragment extends Fragment {
         else
         {
             try {
+
                 String mb = localyInfo.getReadData();
-                textView_mb_get.setText(mb);
+                textView_mb_get.setText(decimalFormat.format(mb).toString() + GB);
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
 
     }
+
+
 
 
 

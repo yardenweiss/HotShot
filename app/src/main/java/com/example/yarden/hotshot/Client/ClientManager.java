@@ -23,17 +23,18 @@ public class ClientManager implements IClientReciveEventListener {
     private WifiManager m_wifiManager;
     private WifiConfiguration m_wifiConf;
     private User providerUser;
+    private Context context;
     private User clientUser;
     private String message;
     private  int netId;
     private static final int MINUTE_5 = 300;
 
-    public ClientManager(P2PWifi _p2pWifi, WifiManager wifiManager)
+    public ClientManager(P2PWifi _p2pWifi, WifiManager wifiManager, Context _context)
     {
-
         m_wifiManager = wifiManager;
         m_wifiConf = new WifiConfiguration();
         p2pWifi = _p2pWifi;
+        context = _context;
     }
 
 
@@ -59,7 +60,7 @@ public class ClientManager implements IClientReciveEventListener {
         SettingProvider();
         checkIfHotspotAvailable();
         connectToWifi();
-        UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager);
+        UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, context);
         updateDataBase.start();
     }
 
@@ -108,6 +109,7 @@ public class ClientManager implements IClientReciveEventListener {
             }
         }
     };
+
 
 
 }

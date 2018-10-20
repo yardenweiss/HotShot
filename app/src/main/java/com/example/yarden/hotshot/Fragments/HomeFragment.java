@@ -2,12 +2,14 @@ package com.example.yarden.hotshot.Fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
@@ -20,6 +22,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +38,7 @@ import com.example.yarden.hotshot.Provider.IPeersEventListener;
 import com.example.yarden.hotshot.Provider.IServerReciveEventListener;
 import com.example.yarden.hotshot.Provider.ShareWifi;
 import com.example.yarden.hotshot.R;
+import com.example.yarden.hotshot.Utils.INotifyEndOfUsage;
 import com.example.yarden.hotshot.Utils.P2PWifi;
 import com.example.yarden.hotshot.Utils.UpdateDataBase;
 import com.example.yarden.hotshot.Utils.User;
@@ -57,6 +61,9 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
     private FragmentActivity myFRContext;
     private boolean mIsClient;
     private boolean mPermissionsGranted;
+    private UpdateDataBase updateDataBase;
+    private User clientUser;
+    private User providerUser;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
 
 
@@ -80,11 +87,18 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
         myRef = database.getReference("message");
         p2PWifi = mainActivity.getP2PWifi();
         wifiManager= (WifiManager) mainActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-         getWifi = new ClientManager(p2PWifi , wifiManager );
-         shareWifi = new ShareWifi(p2PWifi , wifiManager );
+        getWifi = new ClientManager(p2PWifi , wifiManager , getContext());
+        shareWifi = new ShareWifi(p2PWifi , wifiManager );
         shareWifi.setPeerEventListener(this);
         p2PWifi.setServerReciveEventListeners(this);
         p2PWifi.setClientReciveEventListeners(getWifi);
+
+        //yarden - delete after logic complete
+         providerUser = new User();
+        providerUser.setGetFirebaseUidProvider("lvbDgu0zk4MGEktlCOvRdONeKUi2");
+         clientUser = new User();
+        updateDataBase = new UpdateDataBase(providerUser ,clientUser, wifiManager , getContext());
+
 
         final ListView list = (ListView)getActivity().findViewById(R.id.list_view_peers);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,11 +117,6 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
 
             @Override
             public void onClick(View view) {
-                User providerUser = new User();
-                providerUser.setGetFirebaseUidProvider("Neg3J79J9shXHxyQYT2mTPDO84a2");
-                User clientUser = new User();
-                UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, wifiManager);
-                updateDataBase.start();
              /*   mIsClient = true;
                 try{
                     // here request permission
@@ -228,6 +237,5 @@ public class HomeFragment extends Fragment implements IPeersEventListener, IServ
     public void handelMessage(String msg) {
         showAlart();
     }
-
 
 }

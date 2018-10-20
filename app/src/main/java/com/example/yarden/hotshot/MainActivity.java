@@ -1,12 +1,15 @@
 package com.example.yarden.hotshot;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -41,12 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter;
     private P2PWifi p2PWifi;
+    private  FirebaseUser firebaseUser ;
 
-    // Client/Server Variables
-    private ClientManager getWifi;
-    private ShareWifi shareWifi;
-    private FirebaseUser currectUser;
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +66,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
-                Arrays.asList( new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.GoogleBuilder().build()))
-                .build() , 1);
-
-
+                Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build())).build() , 1);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(savedInstanceState == null)
         {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
@@ -152,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                break;
            case R.id.nav_profile:
                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
-                       new ProfileFragment()).commit();
+                       new ProfileFragment(firebaseUser)).commit();
                break;
            case R.id.nav_myactivity:
                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
@@ -164,5 +159,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
+    public static void ShowNotification(Context context) {
+        NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.logo)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo))
+                .setContentTitle("Warning")
+                .setContentText("U about to rich your internet limit");
+        NotificationManager notificationManager =(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1,notification.build());
+    }
 }

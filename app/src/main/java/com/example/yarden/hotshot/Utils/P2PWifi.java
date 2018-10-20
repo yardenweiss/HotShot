@@ -159,6 +159,8 @@ public class P2PWifi implements Serializable {
         }
     }
     private void changeName(){
+
+
         try {
             Method m = mManager.getClass().getMethod(
                     "setDeviceName",

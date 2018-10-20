@@ -38,9 +38,7 @@ public class DataSaveLocaly {
             file = new File(filePath);
             if(!file.exists()) // first time its used
             {
-
                     file.createNewFile();
-
             }
             else if(!emptyFile) // file exist
             {
@@ -61,7 +59,8 @@ public class DataSaveLocaly {
 
     public void writeToFile(String mb) // in the end of use update how mb left
     {
-        file = new File(fileName);
+        String filePath = context.getFilesDir().getPath().toString() + "/"+ fileName +".txt";
+        file = new File(filePath);
         if(!file.exists()) // first time its used
         {
             try {
