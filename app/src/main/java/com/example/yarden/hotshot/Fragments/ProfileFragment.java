@@ -36,6 +36,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+@SuppressLint("ValidFragment")
 public class ProfileFragment extends Fragment {
 
     private RadioButton radioButton1;
@@ -63,7 +64,12 @@ public class ProfileFragment extends Fragment {
     private  Integer USD_5 = 5;
     private  String EMPTY_GB = "0";
     private  String GB = "GB";
+    private FirebaseUser currentUser;
 
+    @SuppressLint("ValidFragment")
+    public ProfileFragment(FirebaseUser _currentUser ){
+        currentUser= _currentUser;
+    }
 
     @Nullable
     @Override
@@ -74,7 +80,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         activity = getActivity();
         Intent intent = new Intent(activity.getBaseContext() , PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION , config);
@@ -87,6 +92,7 @@ public class ProfileFragment extends Fragment {
         localyInfo = new DataSaveLocaly(activity.getBaseContext());
         databaseChange();
         initial();
+
     }
 
     @Override
@@ -125,9 +131,8 @@ public class ProfileFragment extends Fragment {
             radioButton2 = (RadioButton) activity.findViewById(R.id.radioButton_2);
             radioButton5 = (RadioButton) activity.findViewById(R.id.radioButton_5);
             button_pay = (Button) activity.findViewById(R.id.button_pay);
-          /*  String email = FirebaseAuthInstance.getFirebaseUser().getEmail();
-            if(email != null)
-               textView_email.setText(email);*/
+            if(currentUser != null)
+               textView_email.setText(currentUser.getEmail());
 
 
             logout.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +140,6 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View v) {
 
                     FirebaseAuthInstance.getFirebaseAuth().signOut();
-                    startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
-                            Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build())).build() , 1);
                 }
             });
 

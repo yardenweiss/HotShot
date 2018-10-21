@@ -44,10 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private WifiP2pManager mWifiP2pManager;
     private WifiBroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter;
-    private FirebaseAuth.AuthStateListener mAuth;
     private FirebaseAuth authUser;
     private HomeFragment homeFragment;
-
+    private FirebaseUser currentUser;
 
     //Events
     ArrayList<IWifiFaoundEventListener> listeners;
@@ -71,24 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
+        authUser = FirebaseAuth.getInstance();
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(
                 Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build())).build() , 1);
-        authUser = FirebaseAuth.getInstance();
-        mAuth = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    String UserId = authUser.getCurrentUser().getUid();
-                }
-                else {
-                    Log.d("firebase" , "failed");
-                }
 
-            }
-        };
         if(savedInstanceState == null)
         {
           homeFragment= new HomeFragment();
@@ -138,7 +123,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mWifiManager.setWifiEnabled(true);
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+         currentUser = authUser.getCurrentUser();
+         String email = currentUser.getEmail();
+    }
 
     @Override
     protected void onStop() {
@@ -177,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                break;
            case R.id.nav_profile:
                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,
-                       new ProfileFragment()).commit();
+                       new ProfileFragment(currentUser)).commit();
                break;
            case R.id.nav_myactivity:
                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container ,

@@ -1,15 +1,11 @@
 package com.example.yarden.hotshot.Fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.wifi.WifiManager;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -39,15 +35,10 @@ import com.example.yarden.hotshot.Client.ClientManager;
 import com.example.yarden.hotshot.MainActivity;
 import com.example.yarden.hotshot.Provider.ShareWifi;
 import com.example.yarden.hotshot.R;
-import com.example.yarden.hotshot.Utils.User;
 import com.example.yarden.hotshot.Utils.WifiDirecct.ClientSocket;
 import com.example.yarden.hotshot.Utils.WifiDirecct.MyPeerListener;
 import com.example.yarden.hotshot.Utils.WifiDirecct.ServerSocketThread;
 import com.example.yarden.hotshot.Utils.WifiDirecct.ServiceDiscovery;
-import com.example.yarden.hotshot.Utils.WifiDirecct.WifiBroadcastReceiver;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -60,6 +51,20 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     private ClientManager getWifi;
     private ShareWifi shareWifi;
     private HomeFragment homeFragment;
+    private ServiceDiscovery serviceDisvcoery;
+    private  ServerSocketThread serverSocketThread;
+    private ArrayAdapter mAdapter;
+    private WifiP2pDevice[] deviceListItems;
+    private static final int MY_PERMISSION_CODE = 100;
+    private boolean mIsClient;
+    private boolean mPermissionsGranted;
+    private static boolean  stateDiscovery = false;
+    private static boolean stateWifi = false;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+
+    public static boolean stateConnection = false;
+    public static String IP = null;
+    public static boolean IS_OWNER = false;
 
     Button buttonDiscoveryStart;
     Button buttonDiscoveryStop;
@@ -70,33 +75,12 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     Button buttonServerStop;
     Button buttonConfigure;
     Button buttonConnectHotSpot;
-
-    ServiceDiscovery serviceDisvcoery;
-
     ListView listViewDevices;
     TextView textViewDiscoveryStatus;
     TextView textViewWifiP2PStatus;
     TextView textViewConnectionStatus;
     TextView textViewReceivedData;
     TextView textViewReceivedDataStatus;
-    public static String IP = null;
-    public static boolean IS_OWNER = false;
-
-    private static boolean  stateDiscovery = false;
-    private static boolean stateWifi = false;
-    public static boolean stateConnection = false;
-
-    private  ServerSocketThread serverSocketThread;
-
-    private ArrayAdapter mAdapter;
-    private WifiP2pDevice[] deviceListItems;
-
-    private static final int MY_PERMISSION_CODE = 100;
-
-    private boolean mIsClient;
-    private boolean mPermissionsGranted;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
-
 
     @Nullable
     @Override
@@ -114,6 +98,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
 
     private void init()
     {
+        changeName();
         homeFragment = this;
         serviceDisvcoery = new ServiceDiscovery();
         setUpUI();
@@ -459,6 +444,28 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         hotspotAlert.show();
     }
 
+    private void changeName(){
 
+
+        try {
+            Method m = mManager.getClass().getMethod(
+                    "setDeviceName",
+                    new Class[] { WifiP2pManager.Channel.class, String.class,
+                            WifiP2pManager.ActionListener.class });
+
+            m.invoke(mManager,mChannel , "HotShot", new WifiP2pManager.ActionListener() {
+                public void onSuccess() {
+                    Log.d("ChangeName", "success");
+                }
+
+                public void onFailure(int reason) {
+                    Log.d("ChangeName", "failed");
+                }
+            });
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
 
 }
