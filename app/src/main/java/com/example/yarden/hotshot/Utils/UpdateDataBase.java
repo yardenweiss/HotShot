@@ -1,16 +1,12 @@
 package com.example.yarden.hotshot.Utils;
 
-import android.app.NotificationManager;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.yarden.hotshot.Client.DataSaveLocaly;
 import com.example.yarden.hotshot.MainActivity;
-import com.example.yarden.hotshot.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,8 +49,8 @@ public class UpdateDataBase extends Thread {
 
     @Override
     public void run() {
-        uidClient = FirebaseAuthInstance.getUid();
-        databaseRef = FirebaseAuthInstance.getDatabaseRef();
+        uidClient = FirebaseInstances.getUid();
+        databaseRef = FirebaseInstances.getDatabaseRef();
         //move to ctor
         dataUsage.StartCountDataUsage();
         float mb = 0;

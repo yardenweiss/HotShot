@@ -14,12 +14,8 @@ import com.example.yarden.hotshot.MainActivity;
 
 import java.util.List;
 
-/**
- * Created by ash on 14/2/18.
- */
-
 public class WifiBroadcastReceiver extends BroadcastReceiver {
-    public static final String TAG = "===WifiBReceiver";
+    public static final String TAG = "WifiBReceiver";
 
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;

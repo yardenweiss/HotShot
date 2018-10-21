@@ -6,9 +6,10 @@ import android.net.wifi.WifiManager;
 import android.widget.ArrayAdapter;
 
 
+import com.example.yarden.hotshot.Utils.FirebaseInstances;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 public class ShareWifi {
 
@@ -21,7 +22,6 @@ public class ShareWifi {
     public ShareWifi(WifiManager wifiManager) {
         m_wifiConf = new WifiConfiguration();
         m_wifiManager = wifiManager;
-        getHotspotInfo();
     }
 
 
@@ -31,9 +31,8 @@ public class ShareWifi {
     }
 
 
-    public String HotSpotConnectionInfo() {
-        // FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        return message;//+  firebaseUser.getUid();
+    public String getMessage() {
+        return  getHotspotInfo() + '/' + FirebaseInstances.getUid();
 
     }
 

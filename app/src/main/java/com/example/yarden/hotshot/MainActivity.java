@@ -127,8 +127,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-         currentUser = authUser.getCurrentUser();
-         String email = currentUser.getEmail();
+        try {
+            currentUser = authUser.getCurrentUser();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

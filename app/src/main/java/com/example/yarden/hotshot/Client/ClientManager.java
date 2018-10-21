@@ -34,6 +34,9 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         m_wifiConf = new WifiConfiguration();
     }
 
+    public int getNetId() {
+        return netId;
+    }
 
     private void connectToWifi() {
         m_wifiManager.setWifiEnabled(true);
@@ -69,24 +72,10 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         providerUser = new User();
         providerUser.setSsid(parts[0]);
         providerUser.setHotspotPassword(parts[1]);
-        //providerUser.setGetFirebaseUidProvider(parts[2]);
+        providerUser.setGetFirebaseUidProvider(parts[2]);
         clientUser = new User();
     }
 
-    public boolean checkIfHotspotAvailable(){//TODO check hotspot availble
-
-        boolean find =false;
-        Calendar currentDate = Calendar.getInstance();
-        Calendar timeout = Calendar.getInstance();
-        timeout.add(Calendar.MINUTE, 1);
-
-        while(timeout.compareTo(currentDate) >= 0) //אafter 2 min timeout
-        {
-            currentDate = Calendar.getInstance();
-        }
-        return true;
-
-    }
 
     public String getSSID(){
         return providerUser.getSsid();

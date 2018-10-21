@@ -20,8 +20,7 @@ import android.widget.Toast;
 import com.example.yarden.hotshot.Client.DataSaveLocaly;
 import com.example.yarden.hotshot.R;
 import com.example.yarden.hotshot.Utils.ConfigPaypal;
-import com.example.yarden.hotshot.Utils.FirebaseAuthInstance;
-import com.firebase.ui.auth.AuthUI;
+import com.example.yarden.hotshot.Utils.FirebaseInstances;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +33,6 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 @SuppressLint("ValidFragment")
 public class ProfileFragment extends Fragment {
@@ -84,7 +82,7 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(activity.getBaseContext() , PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION , config);
         activity.startService(intent);
-        myRef = FirebaseAuthInstance.getDatabaseRef();
+        myRef = FirebaseInstances.getDatabaseRef();
         decimalFormat = new DecimalFormat();
         decimalFormat.setMaximumFractionDigits(2);
         textView_mb_get = (TextView)activity.findViewById(R.id.textView_wifi_get);
@@ -139,7 +137,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    FirebaseAuthInstance.getFirebaseAuth().signOut();
+                    FirebaseInstances.getFirebaseAuth().signOut();
                 }
             });
 
@@ -204,7 +202,7 @@ public class ProfileFragment extends Fragment {
 
         if(isNetworkAvailable())
         {
-            uid = FirebaseAuthInstance.getUid();
+            uid = FirebaseInstances.getUid();
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

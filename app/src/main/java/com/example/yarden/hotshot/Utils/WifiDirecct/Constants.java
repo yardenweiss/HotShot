@@ -1,8 +1,6 @@
 package com.example.yarden.hotshot.Utils.WifiDirecct;
 
-/**
- * Created by ash on 15/2/18.
- */
+
 
 public final class Constants {
 

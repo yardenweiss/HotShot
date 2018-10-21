@@ -5,14 +5,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FirebaseAuthInstance {
+public class FirebaseInstances {
 
     private static String uid = null;
     private static FirebaseAuth firebaseAuth = null;
     private static DatabaseReference databaseReference = null;
     private static FirebaseUser firebaseUser = null;
 
-    private FirebaseAuthInstance(){}
+    private FirebaseInstances(){}
 
     public static String getUid()
     {
@@ -32,19 +32,6 @@ public class FirebaseAuthInstance {
         return firebaseAuth;
     }
 
-    public static  FirebaseUser  getFirebaseUser()
-    {
-        if(uid == null)
-        {
-            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        }
-        return firebaseUser;
-    }
-
-    public static void setFirebaseUser(FirebaseUser _firebaseUser)
-    {
-        firebaseUser=_firebaseUser;
-    }
 
     public static DatabaseReference getDatabaseRef(){
         if(databaseReference == null)

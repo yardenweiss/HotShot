@@ -98,15 +98,19 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
 
     private void init()
     {
-        changeName();
-        homeFragment = this;
-        serviceDisvcoery = new ServiceDiscovery();
-        setUpUI();
-        mManager = (WifiP2pManager) mainActivity.getSystemService(Context.WIFI_P2P_SERVICE);
-        getWifi = new ClientManager(mainActivity.getmWifiManager(), mainActivity);
-        shareWifi = new ShareWifi(mainActivity.getmWifiManager());
-        mChannel = mainActivity.getmChannel();
-        serverSocketThread = new ServerSocketThread();
+        try {
+            changeName();
+            homeFragment = this;
+            serviceDisvcoery = new ServiceDiscovery();
+            setUpUI();
+            mManager = (WifiP2pManager) mainActivity.getSystemService(Context.WIFI_P2P_SERVICE);
+            getWifi = new ClientManager(mainActivity.getmWifiManager(), mainActivity);
+            shareWifi = new ShareWifi(mainActivity.getmWifiManager());
+            mChannel = mainActivity.getmChannel();
+            serverSocketThread = new ServerSocketThread();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -204,7 +208,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
                 break;
             case R.id.main_activity_button_client_start:
                 //serviceDisvcoery.startRegistrationAndDiscovery(mManager,mChannel);
-                String dataToSend = shareWifi.getHotspotInfo();
+                String dataToSend = shareWifi.getMessage();
                 ClientSocket clientSocket = new ClientSocket(mainActivity.getApplicationContext(),this,dataToSend);
                 clientSocket.execute();
                 showAlart();
