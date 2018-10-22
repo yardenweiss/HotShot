@@ -11,9 +11,7 @@ import com.example.yarden.hotshot.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ash on 14/2/18.
- */
+
 
 public class MyPeerListener implements WifiP2pManager.PeerListListener {
     public static final String TAG = "===MyPeerListener";

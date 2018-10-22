@@ -9,12 +9,8 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by ash on 16/2/18.
- */
-
 public class ServiceDiscovery {
-    private static final String TAG = "===ServiceDiscovery";
+    private static final String TAG = "ServiceDiscovery";
     private static final int SERVER_PORT = 4545;
 
     private WifiP2pDnsSdServiceRequest serviceRequest;
@@ -38,7 +34,7 @@ public class ServiceDiscovery {
                         // A service has been discovered. Is this our app?
                             // update the UI and add the item the discovered
                             // device.
-                            Log.d(ServiceDiscovery.TAG,"=========================yessssssssss");
+                            Log.d(ServiceDiscovery.TAG,"yes");
 
                     }
                 }, new WifiP2pManager.DnsSdTxtRecordListener() {

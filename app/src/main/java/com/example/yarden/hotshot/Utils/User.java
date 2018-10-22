@@ -1,19 +1,6 @@
 package com.example.yarden.hotshot.Utils;
 
-import android.support.annotation.NonNull;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class User {
 
@@ -22,10 +9,11 @@ public class User {
     private String firebaseUid;
     private String firebaseUidProvider;
     private FirebaseUser firebaseUser ;
+    private float totalUsageGet;
+    private float totalUsageShare;
 
     public String GetFirebaseUserUid() {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        firebaseUid= firebaseUser.getUid();
+        firebaseUid = FirebaseInstances.getUid();
         return firebaseUid;
     }
 
@@ -54,9 +42,6 @@ public class User {
     public String getHotspotPassword() {
         return hotspotPassword;
     }
-
-
-
 
 
 }

@@ -1,8 +1,5 @@
 package com.example.yarden.hotshot.Utils.WifiDirecct;
 
-/**
- * Created by ash on 16/2/18.
- */
 
 public class Utils {
     public static String getDottedDecimalIP(byte[] ipAddr) {

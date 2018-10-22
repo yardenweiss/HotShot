@@ -18,9 +18,6 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-/**
- * Created by ash on 16/2/18.
- */
 
 public class ClientSocket extends AsyncTask{
     private static String data;

@@ -13,13 +13,10 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * Created by ash on 16/2/18.
- */
 
 public class ServerSocketThread extends AsyncTask {
 
-    private static final String TAG = "===ServerSocketThread";
+    private static final String TAG = "ServerSocketThread";
     ServerSocket serverSocket;
     String receivedData = "null";
     private int port = 8888;

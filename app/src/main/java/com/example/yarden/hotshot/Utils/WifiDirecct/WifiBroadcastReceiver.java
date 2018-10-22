@@ -3,25 +3,26 @@ package com.example.yarden.hotshot.Utils.WifiDirecct;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaActionSound;
 import android.net.NetworkInfo;
-import android.net.wifi.p2p.WifiP2pInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.yarden.hotshot.MainActivity;
 
-/**
- * Created by ash on 14/2/18.
- */
+import java.util.List;
 
 public class WifiBroadcastReceiver extends BroadcastReceiver {
-    public static final String TAG = "===WifiBReceiver";
+    public static final String TAG = "WifiBReceiver";
 
     private WifiP2pManager mManager;
     private WifiP2pManager.Channel mChannel;
     private MainActivity mActivity;
+
+    private boolean IsSSIDPassed = false;
+    private String SSID;
 
     public WifiBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel,
                                        MainActivity activity) {
@@ -29,6 +30,12 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
         this.mManager = manager;
         this.mChannel = channel;
         this.mActivity = activity;
+    }
+
+
+    public void setSSID(String SSID) {
+        IsSSIDPassed = true;
+        this.SSID = SSID;
     }
 
     @Override
@@ -89,6 +96,16 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 Toast.makeText(mActivity.getApplicationContext(), "Discovery Started",Toast.LENGTH_SHORT);
             } else if(state == WifiP2pManager.WIFI_P2P_DISCOVERY_STOPPED) {
                 Toast.makeText(mActivity.getApplicationContext(), "Discovery Stopped",Toast.LENGTH_SHORT);
+            }
+        }
+        else if(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+            if (IsSSIDPassed) {
+                List<ScanResult> results = mActivity.getmWifiManager().getScanResults();
+                for(ScanResult current : results){
+                    if(current.SSID == SSID){
+                        mActivity.WifiFound();
+                    }
+                }
             }
         }
     }
