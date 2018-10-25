@@ -46,21 +46,21 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionInfoListener,View.OnClickListener {
     private  WifiP2pManager mManager;
     private  WifiP2pManager.Channel mChannel;
-    private WifiP2pDevice device;
-    private MainActivity mainActivity;
-    private ClientManager getWifi;
-    private ShareWifi shareWifi;
-    private HomeFragment homeFragment;
-    private ServiceDiscovery serviceDisvcoery;
+    private  WifiP2pDevice device;
+    private  MainActivity mainActivity;
+    private  ClientManager getWifi;
+    private  ShareWifi shareWifi;
+    private  HomeFragment homeFragment;
+    private  ServiceDiscovery serviceDisvcoery;
     private  ServerSocketThread serverSocketThread;
-    private ArrayAdapter mAdapter;
-    private WifiP2pDevice[] deviceListItems;
-    private static final int MY_PERMISSION_CODE = 100;
-    private boolean mIsClient;
-    private boolean mPermissionsGranted;
-    private static boolean  stateDiscovery = false;
-    private static boolean stateWifi = false;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+    private  ArrayAdapter mAdapter;
+    private  WifiP2pDevice[] deviceListItems;
+    private  static final int MY_PERMISSION_CODE = 100;
+    private  boolean mIsClient;
+    private  boolean mPermissionsGranted;
+    private  static boolean  stateDiscovery = false;
+    private  static boolean stateWifi = false;
+    private  static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
 
     public static boolean stateConnection = false;
     public static String IP = null;
@@ -103,11 +103,13 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             homeFragment = this;
             serviceDisvcoery = new ServiceDiscovery();
             setUpUI();
+
             mManager = (WifiP2pManager) mainActivity.getSystemService(Context.WIFI_P2P_SERVICE);
+            mChannel = mainActivity.getmChannel();
+
             getWifi = new ClientManager(mainActivity.getmWifiManager(), mainActivity);
             shareWifi = new ShareWifi(mainActivity.getmWifiManager());
-            mChannel = mainActivity.getmChannel();
-            serverSocketThread = new ServerSocketThread();
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -183,20 +185,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
                 connect(device);
                 break;
             case R.id.main_activity_button_server_start:
-                serverSocketThread = new ServerSocketThread();
-                serverSocketThread. setUpdateListener(new ServerSocketThread.OnUpdateListener() {
-                    public void onUpdate(String obj) {
-                        getWifi.handelMessage(obj);
-
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mainActivity.AuthHotSpotArrived(getWifi.getSSID());
-                            }
-                        });
-                    }
-                });
-                serverSocketThread.execute();
+                startServer();
                 break;
             case R.id.main_activity_button_server_stop:
                 if(serverSocketThread != null) {
@@ -336,6 +325,26 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         });
     }
 
+
+    private void startServer(){
+        serverSocketThread = new ServerSocketThread();
+        serverSocketThread. setUpdateListener(new ServerSocketThread.OnUpdateListener() {
+            public void onUpdate(String obj) {
+                getWifi.handelMessage(obj);
+
+                mainActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainActivity.AuthHotSpotArrived(getWifi.getSSID());
+                    }
+                });
+            }
+        });
+        serverSocketThread.execute();
+    }
+
+    //Listeners
+
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
         String hostAddress= wifiP2pInfo.groupOwnerAddress.getHostAddress();
@@ -351,11 +360,14 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             buttonClientStop.setVisibility(View.GONE);
             buttonClientStart.setVisibility(View.GONE);
 
-            buttonServerStop.setVisibility(View.VISIBLE);
-            buttonServerStart.setVisibility(View.VISIBLE);
+            //Testing
+            //buttonServerStop.setVisibility(View.VISIBLE);
+            //buttonServerStart.setVisibility(View.VISIBLE);
 
             textViewReceivedData.setVisibility(View.VISIBLE);
             textViewReceivedDataStatus.setVisibility(View.VISIBLE);
+
+            startServer();
         } else {
             //buttonClientStop.setVisibility(View.VISIBLE);
             buttonClientStart.setVisibility(View.VISIBLE);
@@ -368,6 +380,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         makeToast("Configuration Completed");
     }
 
+  // test methods
 
     public void setReceivedText(final String data) {
         mainActivity.runOnUiThread(new Runnable() {
@@ -378,7 +391,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         });
     }
 
-/// old ver
+/// permissions methods
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -428,29 +441,9 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         }
     }
 
-    private void showAlart(){
-        AlertDialog.Builder hotspotAlert = new AlertDialog.Builder(getContext());
-        hotspotAlert.setMessage("Please turn on the hotspot to enable to connect your internet")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings. ACTION_WIRELESS_SETTINGS);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        hotspotAlert.show();
-    }
+    // utils
 
     private void changeName(){
-
-
         try {
             Method m = mManager.getClass().getMethod(
                     "setDeviceName",
@@ -470,6 +463,26 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
 
             e.printStackTrace();
         }
+    }
+
+    private void showAlart(){
+        AlertDialog.Builder hotspotAlert = new AlertDialog.Builder(getContext());
+        hotspotAlert.setMessage("Please turn on the hotspot to enable to connect your internet")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings. ACTION_WIRELESS_SETTINGS);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        hotspotAlert.show();
     }
 
 }
