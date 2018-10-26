@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background"
+    android:background="@drawable/backgroung"
    >
 
     <RelativeLayout
@@ -84,22 +84,7 @@
             android:layout_marginTop="212dp"
             app:srcCompat="@drawable/ic_download_" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView"
-            android:layout_toEndOf="@+id/Profile"
-            android:text="Wifi that i provied:" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView2"
-            android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/Profile"
-            android:text="Wifi that i can use: " />
 
         <TextView
             android:id="@+id/textView12"

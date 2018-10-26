@@ -8,9 +8,7 @@ public class User {
     private String hotspotPassword;
     private String firebaseUid;
     private String firebaseUidProvider;
-    private FirebaseUser firebaseUser ;
-    private float totalUsageGet;
-    private float totalUsageShare;
+    private int netId;
 
     public String GetFirebaseUserUid() {
         firebaseUid = FirebaseInstances.getUid();
@@ -43,5 +41,11 @@ public class User {
         return hotspotPassword;
     }
 
+    public void setNetId(int netId) {
+        this.netId = netId;
+    }
 
+    public int getNetId() {
+        return netId;
+    }
 }
