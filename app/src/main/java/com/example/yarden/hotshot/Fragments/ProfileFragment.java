@@ -111,6 +111,7 @@ public class ProfileFragment extends Fragment {
                 else
                     mbGet += pay;
                 myRef.child(uid).child("TotalGetGB").setValue(mbGet);
+                localyInfo.writeToFile(mbGet.toString());
             }
             else
             {
@@ -145,7 +146,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     pay = USD_1;
-                    radioButtonChose = radioButton1;
+                    setChecked(radioButton1);
                 }
             });
 
@@ -153,7 +154,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     pay = USD_2;
-                    radioButtonChose = radioButton2;
+                    setChecked(radioButton2);
                 }
             });
 
@@ -161,7 +162,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     pay = USD_5;
-                    radioButtonChose = radioButton5;
+                    setChecked(radioButton5);
                 }
             });
 
@@ -176,6 +177,13 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
+    }
+
+    private void setChecked(RadioButton radioButton)
+    {
+        if(radioButtonChose != null)
+            radioButtonChose.setChecked(false);
+        radioButtonChose = radioButton;
     }
 
 

@@ -100,11 +100,11 @@ public class MyActivityFragment extends Fragment {
                     Float mbShareFifi =contact.child("shareWifi").getValue(Float.class);
                     String dateShareWifi = contact.getKey();
 
-                    if(mbGetFifi!=null && dateGetWifi!=null) {
+                    if(mbGetFifi!=null && mbGetFifi!=0 && dateGetWifi!=null) {
                         totalMbGet += mbGetFifi;
                         activitysGet.put(dateGetWifi, dateFormat(mbGetFifi));
                     }
-                    if(mbShareFifi!=null && dateShareWifi!=null) {
+                    if(mbShareFifi!=null && mbShareFifi!=0 && dateShareWifi!=null) {
                         totalMbShare += mbShareFifi;
                         activitysShare.put(dateShareWifi, dateFormat(mbShareFifi));
                     }
@@ -125,7 +125,7 @@ public class MyActivityFragment extends Fragment {
 
     private String dateFormat( Float mb){
          Float f =Float.parseFloat(new DecimalFormat("##.####").format(mb));
-         return "mb: " + f.toString();
+         return "mb: " + f.toString() + "      ";
     }
 
 }

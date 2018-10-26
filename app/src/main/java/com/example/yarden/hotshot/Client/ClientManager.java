@@ -22,6 +22,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
     private WifiConfiguration m_wifiConf;
     private User providerUser;
     private User clientUser;
+    private UpdateDataBase updateDataBase;
     private String message;
     private  int netId;
     private MainActivity mActivity;
@@ -32,6 +33,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         mActivity = Activity;
         m_wifiManager = wifiManager;
         m_wifiConf = new WifiConfiguration();
+        mActivity.SetWifiFoundEventListener(this);
     }
 
     public int getNetId() {
@@ -49,6 +51,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         m_wifiManager.reconnect();
     }
 
+
     private void enableWifi() {
         if (!m_wifiManager.isWifiEnabled())
             m_wifiManager.setWifiEnabled(true);
@@ -58,7 +61,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
     public void run()
     {
         connectToWifi();
-        UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, mActivity.getApplicationContext());// TODO -- YARDEN
+         updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, mActivity.getApplicationContext());// TODO -- YARDEN
         updateDataBase.start();
     }
 
@@ -73,6 +76,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         providerUser.setSsid(parts[0]);
         providerUser.setHotspotPassword(parts[1]);
         providerUser.setGetFirebaseUidProvider(parts[2]);
+        providerUser.setNetId(netId);
         clientUser = new User();
     }
 

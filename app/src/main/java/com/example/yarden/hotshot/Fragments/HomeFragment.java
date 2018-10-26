@@ -360,9 +360,8 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             buttonClientStop.setVisibility(View.GONE);
             buttonClientStart.setVisibility(View.GONE);
 
-            //Testing
-            //buttonServerStop.setVisibility(View.VISIBLE);
-            //buttonServerStart.setVisibility(View.VISIBLE);
+            buttonServerStop.setVisibility(View.VISIBLE);
+            buttonServerStart.setVisibility(View.VISIBLE);
 
             textViewReceivedData.setVisibility(View.VISIBLE);
             textViewReceivedDataStatus.setVisibility(View.VISIBLE);

@@ -18,7 +18,7 @@
         android:name="android.permission.INTERNET"
         android:required="true" />
     <permission android:name="android.permission.OVERRIDE_WIFI_CONFIG"
-        android:protectionLevel="signature|privileged" />
+        android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"

@@ -10,12 +10,11 @@
         android:id="@android:id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="casual"
+        android:background="@drawable/shape_text"
+        android:alpha="0.9"
         />
 
-    <TextView
-        android:id="@android:id/text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        />
 </LinearLayout>

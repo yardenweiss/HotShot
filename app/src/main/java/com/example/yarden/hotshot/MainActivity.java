@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 // can connect now
     public void WifiFound(){
-
+        notifyAllWifiFoundListeners();
     }
 
 
