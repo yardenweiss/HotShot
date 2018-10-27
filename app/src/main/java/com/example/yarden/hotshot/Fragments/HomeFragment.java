@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     }
 
     private void ClientStart(){
-        String dataToSend = shareWifi.getHotspotInfo();
+        String dataToSend = shareWifi.getMessage();
         ClientSocket clientSocket = new ClientSocket(mainActivity.getApplicationContext(),this,dataToSend);
         clientSocket.execute();
         showAlart();
