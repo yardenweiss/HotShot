@@ -3,10 +3,16 @@ package com.example.yarden.hotshot.Provider;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 
 import com.example.yarden.hotshot.Utils.FirebaseInstances;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,11 +23,14 @@ public class ShareWifi {
     private WifiConfiguration m_wifiConf;
     private ArrayAdapter<String> mPeersStringAdapter;
     private String message;
+    private String uid;
+    private boolean hotspotInfo = false;
 
 
     public ShareWifi(WifiManager wifiManager) {
         m_wifiConf = new WifiConfiguration();
         m_wifiManager = wifiManager;
+        databaseUpdate();
     }
 
 
@@ -32,7 +41,12 @@ public class ShareWifi {
 
 
     public String getMessage() {
-        return  getHotspotInfo() + '/' + FirebaseInstances.getUid();
+        String tempMsg;
+        if(!hotspotInfo)
+         tempMsg =  getHotspotInfo() ;
+        else
+            tempMsg = message;
+        return tempMsg + '/' + FirebaseInstances.getUid();
 
     }
 
@@ -56,4 +70,28 @@ public class ShareWifi {
         return message;
     }
 
+    public boolean getSettingStatus(){
+        return hotspotInfo;
+    }
+
+    private void databaseUpdate() {
+        DatabaseReference myRef = FirebaseInstances.getDatabaseRef();
+         uid = FirebaseInstances.getUid();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(uid).child("Password").exists() && dataSnapshot.child(uid).child("SSID").exists()) {
+                    String password = dataSnapshot.child(uid).child("Password").getValue(String.class);
+                    String ssid = dataSnapshot.child(uid).child("SSID").getValue(String.class);
+                    message = ssid + '/' + password + '/';
+                    hotspotInfo = true;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
 }

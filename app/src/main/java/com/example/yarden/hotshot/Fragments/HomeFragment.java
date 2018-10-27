@@ -11,6 +11,7 @@ import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -18,7 +19,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,16 +29,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.yarden.hotshot.Client.ClientManager;
 import com.example.yarden.hotshot.Client.DataSaveLocaly;
 import com.example.yarden.hotshot.MainActivity;
 import com.example.yarden.hotshot.Provider.ShareWifi;
 import com.example.yarden.hotshot.R;
-import com.example.yarden.hotshot.Utils.UpdateDataBase;
-import com.example.yarden.hotshot.Utils.User;
+import com.example.yarden.hotshot.Utils.HotspotDetailsActivity;
 import com.example.yarden.hotshot.Utils.WifiDirecct.ClientSocket;
 import com.example.yarden.hotshot.Utils.WifiDirecct.MyPeerListener;
 import com.example.yarden.hotshot.Utils.WifiDirecct.ServerSocketThread;
@@ -72,19 +69,13 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
 
     ImageButton buttonGetWifi;
     ImageButton buttonShareWifi;
-    Button buttonDiscoveryStop;
     Button buttonConnect;
-    Button buttonServerStart;
-    Button buttonClientStart;
     Button buttonClientStop;
-    Button buttonServerStop;
     Button buttonConfigure;
     Button buttonConnectHotSpot;
     ListView listViewDevices;
-    TextView textViewDiscoveryStatus;
-    TextView textViewWifiP2PStatus;
-    TextView textViewConnectionStatus;
-    TextView textViewReceivedDataStatus;
+    FloatingActionButton fabStop;
+
 
     @Nullable
     @Override
@@ -119,35 +110,22 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     private void setUpUI() {
         buttonGetWifi = mainActivity.findViewById(R.id.get_wifi);
         buttonShareWifi = mainActivity.findViewById(R.id.share_wifi);
-        buttonConnect = mainActivity.findViewById(R.id.main_activity_button_connect);
-        buttonServerStart = mainActivity.findViewById(R.id.main_activity_button_server_start);
-        buttonServerStop = mainActivity.findViewById(R.id.main_activity_button_server_stop);
-        buttonClientStart = mainActivity.findViewById(R.id.main_activity_button_client_start);
-        buttonClientStop = mainActivity.findViewById(R.id.main_activity_button_client_stop);
+        buttonConnect = mainActivity.findViewById(R.id.main_activity_button_connect_hot);
         buttonConfigure = mainActivity.findViewById(R.id.main_activity_button_configure);
         listViewDevices = mainActivity.findViewById(R.id.main_activity_list_view_devices);
-        textViewReceivedDataStatus = mainActivity.findViewById(R.id.main_acitivity_received_data);
         buttonConnectHotSpot = mainActivity.findViewById(R.id.main_activity_button_connect_hot);
+        fabStop = mainActivity.findViewById(R.id.floatingActionButton_stop);
 
         buttonConnectHotSpot.setOnClickListener(this);
-        buttonServerStart.setOnClickListener(this);
-        buttonServerStop.setOnClickListener(this);
-        buttonClientStart.setOnClickListener(this);
-        buttonClientStop.setOnClickListener(this);
         buttonConnect.setOnClickListener(this);
         buttonGetWifi.setOnClickListener(this);
         buttonShareWifi.setOnClickListener(this);
         buttonConfigure.setOnClickListener(this);
+        fabStop.setOnClickListener(this);
 
         buttonConnect.setVisibility(View.INVISIBLE);
         buttonConfigure.setVisibility(View.INVISIBLE);
         buttonConnectHotSpot.setVisibility(View.INVISIBLE);
-        buttonClientStop.setVisibility(View.INVISIBLE);
-        buttonClientStart.setVisibility(View.INVISIBLE);
-        buttonServerStop.setVisibility(View.INVISIBLE);
-        buttonServerStart.setVisibility(View.INVISIBLE);
-
-
 
         listViewDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -170,7 +148,6 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
                if(checkSettingForClient()) {
                    mIsClient = true;
                    if(!stateDiscovery) {
-                  //  changeName("Client");
                     checkPermissionsAndAction();
                     buttonConnect.setVisibility(View.VISIBLE);
                 }
@@ -179,6 +156,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
              }
               break;
             case R.id.share_wifi:
+                checkSettingForProvider();
                 if(!stateDiscovery) {
                     changeName("Provider");
                     checkPermissionsAndAction();
@@ -194,30 +172,15 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
                 }
                 connect(device);
                 break;
-            case R.id.main_activity_button_server_start:
-                startServer();
-                break;
-            case R.id.main_activity_button_server_stop:
-                if(serverSocketThread != null) {
-                    serverSocketThread.setInterrupted(true);
-                } else {
-                    Log.d(MainActivity.TAG,"serverSocketThread is null");
-                }
-                //makeToast("Yet to do...");
-                break;
-            case R.id.main_activity_button_client_start:
-                //serviceDisvcoery.startRegistrationAndDiscovery(mManager,mChannel);
-                ClientStart();
-                break;
             case R.id.main_activity_button_configure:
                 mManager.requestConnectionInfo(mChannel,this);
-                break;
-            case R.id.main_activity_button_client_stop:
-                makeToast("Yet to do");
                 break;
             case R.id.main_activity_button_connect_hot:
                 getWifi.run();
                 break;
+            case R.id.floatingActionButton_stop:
+                getWifi.disconnect();
+
             default:
                 break;
         }
@@ -287,16 +250,12 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
                 stateDiscovery = false;
                 Log.d(MainActivity.TAG,"Peer Discovery stopped");
                 makeToast("Peer Discovery stopped" );
-                //buttonDiscoveryStop.setEnabled(false);
-
             }
 
             @Override
             public void onFailure(int i) {
                 Log.d(MainActivity.TAG,"Stopping Peer Discovery failed");
                 makeToast("Stopping Peer Discovery failed" );
-                //buttonDiscoveryStop.setEnabled(true);
-
             }
         });
 
@@ -316,7 +275,6 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             public void onSuccess() {
                 Log.d(MainActivity.TAG, "Connected to :" + device.deviceName);
                 makeToast("Connection successful with " + device.deviceName);
-                //setDeviceList(new ArrayList<WifiP2pDevice>());
             }
 
             @Override
@@ -372,38 +330,14 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
 
         if(IS_OWNER) {
              buttonClientStop.setVisibility(View.GONE);
-            buttonClientStart.setVisibility(View.GONE);
-
-            //Testing
-            //buttonServerStop.setVisibility(View.VISIBLE);
-            //buttonServerStart.setVisibility(View.VISIBLE);
-
-            textViewReceivedDataStatus.setVisibility(View.VISIBLE);
-
             startServer();
         } else {
-            //buttonClientStop.setVisibility(View.VISIBLE);
-            //buttonClientStart.setVisibility(View.VISIBLE);
-            buttonServerStop.setVisibility(View.GONE);
-            buttonServerStart.setVisibility(View.GONE);
-            textViewReceivedDataStatus.setVisibility(View.GONE);
             String tmp = shareWifi.getHotspotInfo();//TODO delete it after the checks
             ClientStart();
         }
 
         makeToast("Configuration Completed");
     }
-
-    // test methods
-
-   // public void setReceivedText(final String data) {
-   //     mainActivity.runOnUiThread(new Runnable() {
-   //         @Override
-   //         public void run() {
-   //             textViewReceivedData.setText(data);
-   //         }
-   //     });
-   // }
 
 /// permissions methods
 
@@ -507,5 +441,15 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         else
             return true;
     }
+
+    private void checkSettingForProvider(){
+       if(Build.VERSION.SDK_INT >= 24 && !shareWifi.getSettingStatus())
+       {
+        Intent intent = new Intent(mainActivity.getApplicationContext(), HotspotDetailsActivity.class);
+        startActivity(intent);
+       }
+    }
+
+
 
 }

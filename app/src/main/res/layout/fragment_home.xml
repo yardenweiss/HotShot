@@ -32,8 +32,8 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="38dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginEnd="46dp"
+            android:layout_marginTop="41dp"
             android:layout_weight="1"
             android:background="@drawable/button_home"
             android:text="share wifi"
@@ -41,100 +41,56 @@
 
 
         <Button
-            android:id="@+id/main_activity_button_connect"
-            android:layout_width="206dp"
-            android:layout_height="35dp"
+            android:id="@+id/main_activity_button_connect_hot"
+            android:layout_width="106dp"
+            android:layout_height="32dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="208dp"
+            android:layout_alignStart="@+id/main_activity_button_connect"
+            android:layout_marginBottom="102dp"
             android:background="@drawable/buttonshape"
-            android:text="Connect" />
+            android:text="ConnectHot" />
 
 
         <Button
+            android:id="@+id/main_activity_button_connect"
+            android:layout_width="106dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/main_activity_button_configure"
+            android:layout_marginStart="47dp"
+            android:background="@drawable/buttonshape"
+            android:text="Connect" />
+
+        <Button
             android:id="@+id/main_activity_button_configure"
-            android:layout_width="204dp"
-            android:layout_height="29dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/share_wifi"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="169dp"
+            android:layout_marginBottom="157dp"
             android:background="@drawable/buttonshape"
             android:text="Configure" />
 
 
-        <Button
-            android:id="@+id/main_activity_button_server_start"
-            android:layout_width="194dp"
-            android:layout_height="35dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="113dp"
-            android:layout_weight="1"
-            android:background="@drawable/buttonshape"
-            android:text="Server start" />
-
-        <Button
-            android:id="@+id/main_activity_button_server_stop"
-            android:layout_width="191dp"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/main_activity_button_configure"
-            android:layout_marginEnd="11dp"
-            android:layout_weight="1"
-            android:background="@drawable/buttonshape"
-            android:text="Server stop" />
-
-
-        <Button
-            android:id="@+id/main_activity_button_connect_hot"
-            android:layout_width="179dp"
-            android:layout_height="29dp"
-
-            android:layout_above="@+id/main_acitivity_received_data"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="19dp"
-            android:background="@drawable/buttonshape"
-            android:text="Connect" />
-
-        <TextView
-            android:id="@+id/main_acitivity_received_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="19dp"
-            android:text="Received Data" />
-
-
-        <Button
-            android:id="@+id/main_activity_button_client_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/main_activity_button_server_start"
-            android:layout_alignEnd="@+id/main_activity_button_server_start"
-            android:layout_marginBottom="-206dp"
-            android:layout_weight="1"
-            android:text="Send string"
-            android:background="@drawable/buttonshape"/>
-
-        <Button
-            android:id="@+id/main_activity_button_client_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/main_activity_list_view_devices"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="85dp"
-            android:layout_weight="1"
-            android:text="Client Stop"
-            android:background="@drawable/buttonshape"/>
-
         <ListView
             android:id="@+id/main_activity_list_view_devices"
-            android:layout_width="98dp"
+            android:layout_width="133dp"
             android:layout_height="178dp"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/get_wifi"
-            android:layout_marginTop="112dp"></ListView>
+            android:layout_marginTop="113dp"
+            android:background="#dfe6e9"></ListView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp"
+            android:clickable="true"
+            app:backgroundTint="#e9222f"
+            app:srcCompat="@drawable/ic_stop" />
 
 
     </RelativeLayout>

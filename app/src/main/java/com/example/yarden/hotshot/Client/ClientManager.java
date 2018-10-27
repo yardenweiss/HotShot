@@ -17,16 +17,14 @@ import java.util.List;
 
 public class ClientManager implements IClientReciveEventListener,IWifiFaoundEventListener {
 
-    private  WifiP2pManager mManager;
     private WifiManager m_wifiManager;
     private WifiConfiguration m_wifiConf;
     private User providerUser;
     private User clientUser;
     private UpdateDataBase updateDataBase;
     private String message;
-    private  int netId;
+    private  int netId = 0;
     private MainActivity mActivity;
-    private static final int MINUTE_5 = 300;
 
     public ClientManager(WifiManager wifiManager, MainActivity Activity)
     {
@@ -52,9 +50,8 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
     }
 
 
-    private void enableWifi() {
-        if (!m_wifiManager.isWifiEnabled())
-            m_wifiManager.setWifiEnabled(true);
+    private void enableWifi(boolean state) {
+            m_wifiManager.setWifiEnabled(state);
     }
 
 // TODO resume dataBase
@@ -65,8 +62,11 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         updateDataBase.start();
     }
 
-    public void disconnect(){
-        m_wifiManager.removeNetwork(netId);
+    public void disconnect()
+    {
+        if(netId != 0)
+             m_wifiManager.removeNetwork(netId);
+        enableWifi(false);
     }
 
     public void SettingProvider()
