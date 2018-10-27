@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.yarden.hotshot.Fragments.HomeFragment;
 import com.example.yarden.hotshot.R;
 import com.google.firebase.database.DatabaseReference;
 
@@ -50,7 +51,8 @@ public class HotspotDetailsActivity extends AppCompatActivity {
 
                     myRef.child(uid).child("Password").setValue(password);
                     myRef.child(uid).child("SSID").setValue(ssid);
-
+                    Intent intent = new Intent(getApplicationContext() , HomeFragment.class);
+                    startActivity(intent);
                 }
             }
         });

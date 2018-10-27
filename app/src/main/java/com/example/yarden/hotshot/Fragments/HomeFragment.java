@@ -332,7 +332,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
              buttonClientStop.setVisibility(View.GONE);
             startServer();
         } else {
-            String tmp = shareWifi.getHotspotInfo();//TODO delete it after the checks
+            String tmp = shareWifi.getMessage();//TODO delete it after the checks
             ClientStart();
         }
 
