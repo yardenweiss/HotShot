@@ -41,7 +41,7 @@ public class ShareWifi {
 
 
     public String getMessage() {
-        String tempMsg;
+       String tempMsg;
         if(!hotspotInfo)
          tempMsg =  getHotspotInfo() ;
         else
@@ -70,7 +70,7 @@ public class ShareWifi {
         return message;
     }
 
-    public boolean getSettingStatus(){
+   public boolean getSettingStatus(){
         return hotspotInfo;
     }
 

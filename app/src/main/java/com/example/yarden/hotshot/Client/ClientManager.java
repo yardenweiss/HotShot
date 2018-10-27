@@ -32,6 +32,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         m_wifiManager = wifiManager;
         m_wifiConf = new WifiConfiguration();
         mActivity.SetWifiFoundEventListener(this);
+
     }
 
     public int getNetId() {

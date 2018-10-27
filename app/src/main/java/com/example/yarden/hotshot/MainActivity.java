@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.yarden.hotshot.Client.IClientReciveEventListener;
 import com.example.yarden.hotshot.Client.IWifiFaoundEventListener;
 import com.example.yarden.hotshot.Fragments.HomeFragment;
 import com.example.yarden.hotshot.Fragments.MyActivityFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Events
     ArrayList<IWifiFaoundEventListener> listeners;
+    ArrayList<IClientReciveEventListener> reciveEventListeners = new ArrayList<IClientReciveEventListener>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listener.StartConnection();
         }
     }
+    
 
 
     private void initialPTPWork(){

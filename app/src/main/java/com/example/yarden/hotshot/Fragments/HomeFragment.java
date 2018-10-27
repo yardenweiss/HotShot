@@ -70,7 +70,6 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     ImageButton buttonGetWifi;
     ImageButton buttonShareWifi;
     Button buttonConnect;
-    Button buttonClientStop;
     Button buttonConfigure;
     Button buttonConnectHotSpot;
     ListView listViewDevices;
@@ -110,11 +109,12 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     private void setUpUI() {
         buttonGetWifi = mainActivity.findViewById(R.id.get_wifi);
         buttonShareWifi = mainActivity.findViewById(R.id.share_wifi);
-        buttonConnect = mainActivity.findViewById(R.id.main_activity_button_connect_hot);
+        buttonConnect = mainActivity.findViewById(R.id.main_activity_button_connect);
         buttonConfigure = mainActivity.findViewById(R.id.main_activity_button_configure);
         listViewDevices = mainActivity.findViewById(R.id.main_activity_list_view_devices);
         buttonConnectHotSpot = mainActivity.findViewById(R.id.main_activity_button_connect_hot);
         fabStop = mainActivity.findViewById(R.id.floatingActionButton_stop);
+
 
         buttonConnectHotSpot.setOnClickListener(this);
         buttonConnect.setOnClickListener(this);
@@ -123,9 +123,11 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         buttonConfigure.setOnClickListener(this);
         fabStop.setOnClickListener(this);
 
+
         buttonConnect.setVisibility(View.INVISIBLE);
         buttonConfigure.setVisibility(View.INVISIBLE);
         buttonConnectHotSpot.setVisibility(View.INVISIBLE);
+        listViewDevices.setVisibility(View.INVISIBLE);
 
         listViewDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -147,13 +149,14 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             case R.id.get_wifi:
                if(checkSettingForClient()) {
                    mIsClient = true;
-                   if(!stateDiscovery) {
-                    checkPermissionsAndAction();
-                    buttonConnect.setVisibility(View.VISIBLE);
-                }
+                   if (!stateDiscovery) {
+                       checkPermissionsAndAction();
+                       listViewDevices.setVisibility(View.VISIBLE);
+                       buttonConnect.setVisibility(View.VISIBLE);
+                   }
+               }
                 else
                     makeToast("U dont have any mb to use");
-             }
               break;
             case R.id.share_wifi:
                 checkSettingForProvider();
@@ -161,7 +164,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
                     changeName("Provider");
                     checkPermissionsAndAction();
                     buttonConfigure.setVisibility(View.VISIBLE);
-                    listViewDevices.setVisibility(View.INVISIBLE);
+
                 }
                 break;
             case R.id.main_activity_button_connect:
@@ -187,7 +190,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     }
 
     private void ClientStart(){
-        String dataToSend = shareWifi.getMessage();
+        String dataToSend = shareWifi.getHotspotInfo();
         ClientSocket clientSocket = new ClientSocket(mainActivity.getApplicationContext(),this,dataToSend);
         clientSocket.execute();
         showAlart();
@@ -260,41 +263,41 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         });
 
     }
-
+    // Picking the first device found on the network.
     public void connect (final WifiP2pDevice device) {
-        // Picking the first device found on the network.
+        try {
+      WifiP2pConfig config = new WifiP2pConfig();
+    config.deviceAddress = device.deviceAddress;
+    config.wps.setup = WpsInfo.PBC;
 
-        WifiP2pConfig config = new WifiP2pConfig();
-        config.deviceAddress = device.deviceAddress;
-        config.wps.setup = WpsInfo.PBC;
+    Log.d(MainActivity.TAG, "Trying to connect : " + device.deviceName);
+    mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
 
-        Log.d(MainActivity.TAG,"Trying to connect : " +device.deviceName);
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+        @Override
+        public void onSuccess() {
+            Log.d(MainActivity.TAG, "Connected to :" + device.deviceName);
+            makeToast("Connection successful with " + device.deviceName);
+        }
 
-            @Override
-            public void onSuccess() {
-                Log.d(MainActivity.TAG, "Connected to :" + device.deviceName);
-                makeToast("Connection successful with " + device.deviceName);
+        @Override
+        public void onFailure(int reason) {
+            if (reason == WifiP2pManager.P2P_UNSUPPORTED) {
+                Log.d(MainActivity.TAG, "P2P_UNSUPPORTED");
+                makeToast("Failed establishing connection: " + "P2P_UNSUPPORTED");
+            } else if (reason == WifiP2pManager.ERROR) {
+                Log.d(MainActivity.TAG, "Conneciton falied : ERROR");
+                makeToast("Failed establishing connection: " + "ERROR");
+
+            } else if (reason == WifiP2pManager.BUSY) {
+                Log.d(MainActivity.TAG, "Conneciton falied : BUSY");
+                makeToast("Failed establishing connection: " + "BUSY");
+
             }
-
-            @Override
-            public void onFailure(int reason) {
-                if(reason == WifiP2pManager.P2P_UNSUPPORTED) {
-                    Log.d(MainActivity.TAG, "P2P_UNSUPPORTED");
-                    makeToast("Failed establishing connection: " + "P2P_UNSUPPORTED");
-                }
-                else if( reason == WifiP2pManager.ERROR) {
-                    Log.d(MainActivity.TAG, "Conneciton falied : ERROR");
-                    makeToast("Failed establishing connection: " + "ERROR");
-
-                }
-                else if( reason == WifiP2pManager.BUSY) {
-                    Log.d(MainActivity.TAG, "Conneciton falied : BUSY");
-                    makeToast("Failed establishing connection: " + "BUSY");
-
-                }
-            }
-        });
+        }
+    });
+        }catch (Exception e){
+        e.printStackTrace();
+          }
     }
 
 
@@ -329,10 +332,9 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         IS_OWNER = wifiP2pInfo.isGroupOwner;
 
         if(IS_OWNER) {
-             buttonClientStop.setVisibility(View.GONE);
+            fabStop.setVisibility(View.GONE);
             startServer();
         } else {
-            String tmp = shareWifi.getMessage();//TODO delete it after the checks
             ClientStart();
         }
 
@@ -442,8 +444,8 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             return true;
     }
 
-    private void checkSettingForProvider(){
-       if(Build.VERSION.SDK_INT >= 24 && !shareWifi.getSettingStatus())
+   private void checkSettingForProvider(){
+       if(Build.VERSION.SDK_INT >= 18 && !shareWifi.getSettingStatus())
        {
         Intent intent = new Intent(mainActivity.getApplicationContext(), HotspotDetailsActivity.class);
         startActivity(intent);
