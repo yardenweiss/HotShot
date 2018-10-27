@@ -445,7 +445,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     }
 
    private void checkSettingForProvider(){
-       if(Build.VERSION.SDK_INT >= 18 && !shareWifi.getSettingStatus())
+       if(Build.VERSION.SDK_INT >= 24 && !shareWifi.getSettingStatus())
        {
         Intent intent = new Intent(mainActivity.getApplicationContext(), HotspotDetailsActivity.class);
         startActivity(intent);

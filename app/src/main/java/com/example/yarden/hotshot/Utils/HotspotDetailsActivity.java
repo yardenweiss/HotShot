@@ -51,8 +51,7 @@ public class HotspotDetailsActivity extends AppCompatActivity {
 
                     myRef.child(uid).child("Password").setValue(password);
                     myRef.child(uid).child("SSID").setValue(ssid);
-                    Intent intent = new Intent(getApplicationContext() , HomeFragment.class);
-                    startActivity(intent);
+
                 }
             }
         });
