@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class MyPeerListener implements WifiP2pManager.PeerListListener {
-    public static final String TAG = "MyPeerListener";
+    public static final String TAG = "===MyPeerListener";
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
     private HomeFragment homeFragment;
 

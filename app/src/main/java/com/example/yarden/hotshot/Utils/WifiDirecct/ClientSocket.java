@@ -21,7 +21,7 @@ import java.net.Socket;
 
 public class ClientSocket extends AsyncTask{
     private static String data;
-    private static final String TAG = "ClientSocket";
+    private static final String TAG = "===ClientSocket";
     private Socket socket;
     private HomeFragment homeFragment;
     //private Context context;
@@ -58,6 +58,10 @@ public class ClientSocket extends AsyncTask{
         byte buf[]  = new byte[1024];
 
         try {
+            /**
+             * Create a client socket with the host,
+             * port, and timeout information.
+             */
             socket.bind(null);
             Log.d(ClientSocket.TAG,"Trying to connect...");
 
@@ -88,6 +92,10 @@ public class ClientSocket extends AsyncTask{
             Log.d(ClientSocket.TAG,e.toString());
         }
 
+        /**
+         * Clean up any open sockets when done
+         * transferring or if an exception occurred.
+         */
         finally {
             if (socket != null) {
                 if (socket.isConnected()) {
