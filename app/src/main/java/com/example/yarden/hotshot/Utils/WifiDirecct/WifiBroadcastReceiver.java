@@ -72,11 +72,12 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             //    boolean isGroupOwner = p2pInfo.isGroupOwner;
            //     Log.d(WifiBroadcastReceiver.TAG,"I am a group owner");
            // }
-            if (networkInfo.isConnected()) {
+            if (networkInfo.isConnected() && mActivity.getHomeFragment().isClient()) {
 
                 // we are connected with the other device, request connection
                 // info to find group owner IP
                 //mManager.requestConnectionInfo(mChannel, mActivity);
+                mManager.requestConnectionInfo(mChannel,mActivity.getHomeFragment());
             } else {
                 // It's a disconnect
                 Log.d(WifiBroadcastReceiver.TAG,"Its a disconnect");
@@ -102,8 +103,9 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             if (IsSSIDPassed) {
                 List<ScanResult> results = mActivity.getmWifiManager().getScanResults();
                 for(ScanResult current : results){
-                    if(current.SSID == SSID){
+                    if(current.SSID.equals(SSID)){
                         mActivity.WifiFound();
+                        break;
                     }
                 }
             }

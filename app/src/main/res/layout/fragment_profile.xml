@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/line2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/backgroung"
+   >
 
     <RelativeLayout
         android:id="@+id/line2"
@@ -83,22 +84,7 @@
             android:layout_marginTop="212dp"
             app:srcCompat="@drawable/ic_download_" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView"
-            android:layout_toEndOf="@+id/Profile"
-            android:text="Wifi that i provied:" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView2"
-            android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/Profile"
-            android:text="Wifi that i can use: " />
 
         <TextView
             android:id="@+id/textView12"
@@ -116,7 +102,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/textView"
             android:layout_marginBottom="224dp"
-            android:text="1GB 1$" />
+            android:text="1GB 1$"
+            android:fontFamily="casual"
+            android:background="@drawable/profile_text_shape"
+            android:alpha="0.9"/>
 
         <RadioButton
             android:id="@+id/radioButton_2"
@@ -125,7 +114,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/textView"
             android:layout_marginBottom="183dp"
-            android:text="2GB 2$" />
+            android:text="2GB 2$"
+            android:fontFamily="casual"
+            android:background="@drawable/profile_text_shape"
+            android:alpha="0.9"/>
 
         <RadioButton
             android:id="@+id/radioButton_5"
@@ -134,7 +126,10 @@
             android:layout_alignStart="@+id/textView"
             android:layout_below="@+id/radioButton_2"
             android:layout_marginTop="-178dp"
-            android:text="5GB 5$" />
+            android:text="5GB 5$"
+            android:fontFamily="casual"
+            android:background="@drawable/profile_text_shape"
+            android:alpha="0.9"/>
 
         <TextView
             android:id="@+id/textView2"
@@ -143,6 +138,9 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="27dp"
+            android:fontFamily="casual"
+            android:background="@drawable/profile_text_shape"
+            android:alpha="0.9"
             android:text="Dear Provider , We'll contact you for bank account information once revenue from your web share is accrued" />
 
 
@@ -198,7 +196,10 @@
         android:layout_width="251dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button_sign_out"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_alignStart="@+id/textView"
+        android:fontFamily="casual"
+        android:background="@drawable/profile_text_shape"
+        android:alpha="0.9"/>
 
     <View
         android:id="@+id/line1"
@@ -249,7 +250,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imageView"
         android:layout_toEndOf="@+id/Profile"
-        android:text="Wifi that i provied:" />
+        android:text="Wifi that i provied:"
+        android:fontFamily="casual"
+        android:background="@drawable/profile_text_shape"
+        android:alpha="0.9"/>
 
     <TextView
         android:id="@+id/textView9"
@@ -258,7 +262,10 @@
         android:layout_alignTop="@+id/imageView2"
         android:layout_marginStart="0dp"
         android:layout_toEndOf="@+id/Profile"
-        android:text="Wifi that i can use: " />
+        android:text="Wifi that i can use: "
+        android:fontFamily="casual"
+        android:background="@drawable/profile_text_shape"
+        android:alpha="0.9"/>
 
     <TextView
         android:id="@+id/textView_wifi_proviedr"

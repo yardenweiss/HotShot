@@ -46,8 +46,8 @@ public class MyAdapter extends BaseAdapter {
 
         Map.Entry<String, String> item = getItem(position);
 
-        ((TextView) result.findViewById(android.R.id.text1)).setText(item.getKey());
-        ((TextView) result.findViewById(android.R.id.text2)).setText(item.getValue());
+        ((TextView) result.findViewById(android.R.id.text1)).setText(item.getKey()+"\n" + item.getValue());
+      //  ((TextView) result.findViewById(android.R.id.text2)).setText(item.getValue());
 
         return result;
     }

@@ -17,21 +17,21 @@ import java.util.List;
 
 public class ClientManager implements IClientReciveEventListener,IWifiFaoundEventListener {
 
-    private  WifiP2pManager mManager;
     private WifiManager m_wifiManager;
     private WifiConfiguration m_wifiConf;
     private User providerUser;
     private User clientUser;
+    private UpdateDataBase updateDataBase;
     private String message;
-    private  int netId;
+    private  int netId = 0;
     private MainActivity mActivity;
-    private static final int MINUTE_5 = 300;
 
     public ClientManager(WifiManager wifiManager, MainActivity Activity)
     {
         mActivity = Activity;
         m_wifiManager = wifiManager;
         m_wifiConf = new WifiConfiguration();
+        mActivity.SetWifiFoundEventListener(this);
     }
 
     public int getNetId() {
@@ -49,21 +49,24 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         m_wifiManager.reconnect();
     }
 
-    private void enableWifi() {
-        if (!m_wifiManager.isWifiEnabled())
-            m_wifiManager.setWifiEnabled(true);
+
+    private void enableWifi(boolean state) {
+            m_wifiManager.setWifiEnabled(state);
     }
 
 // TODO resume dataBase
     public void run()
     {
         connectToWifi();
-        UpdateDataBase updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, mActivity.getApplicationContext());// TODO -- YARDEN
+         updateDataBase = new UpdateDataBase(providerUser ,clientUser, m_wifiManager, mActivity.getApplicationContext());// TODO -- YARDEN
         updateDataBase.start();
     }
 
-    public void disconnect(){
-        m_wifiManager.removeNetwork(netId);
+    public void disconnect()
+    {
+        if(netId != 0)
+             m_wifiManager.removeNetwork(netId);
+        enableWifi(false);
     }
 
     public void SettingProvider()
@@ -73,6 +76,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         providerUser.setSsid(parts[0]);
         providerUser.setHotspotPassword(parts[1]);
         providerUser.setGetFirebaseUidProvider(parts[2]);
+        providerUser.setNetId(netId);
         clientUser = new User();
     }
 

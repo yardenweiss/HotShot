@@ -1,149 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="25dp">
+    android:orientation="vertical"
+    android:background="@drawable/backgroung"
+    >
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/get_wifi"
+            android:layout_width="71dp"
+            android:layout_height="59dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/share_wifi"
+            android:layout_marginStart="55dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_home"
+            app:srcCompat="@drawable/ic_search_wireless_net" />
+
+        <ImageButton
+            android:id="@+id/share_wifi"
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="46dp"
+            android:layout_marginTop="41dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_home"
+            android:text="share wifi"
+            app:srcCompat="@drawable/ic_router" />
+
+
+        <Button
+            android:id="@+id/main_activity_button_connect_hot"
+            android:layout_width="106dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/main_activity_button_connect"
+            android:layout_marginBottom="102dp"
+            android:background="@drawable/buttonshape"
+            android:text="ConnectHot" />
+
+
+        <Button
+            android:id="@+id/main_activity_button_connect"
+            android:layout_width="106dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/main_activity_button_configure"
+            android:layout_marginStart="47dp"
+            android:background="@drawable/buttonshape"
+            android:text="Connect" />
+
+        <Button
+            android:id="@+id/main_activity_button_configure"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/share_wifi"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="157dp"
+            android:background="@drawable/buttonshape"
+            android:text="Configure" />
+
+
+        <ListView
+            android:id="@+id/main_activity_list_view_devices"
+            android:layout_width="133dp"
+            android:layout_height="178dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/get_wifi"
+            android:layout_marginTop="113dp"
+            android:background="#dfe6e9"></ListView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton_stop"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/main_activiy_textView_wifi_p2p_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="P2P Status" />
-
-            <TextView
-                android:id="@+id/main_activiy_textView_dicovery_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Status" />
-
-            <TextView
-                android:id="@+id/main_activiy_textView_connection_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Status" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:layout_weight="1"
-                    android:id="@+id/main_activity_button_discover_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="START DISCOVERY" />
-
-                <Button
-                    android:layout_weight="1"
-                    android:id="@+id/main_activity_button_discover_stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="STOP DISCOVERY" />
-
-            </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp"
+            android:clickable="true"
+            app:backgroundTint="#e9222f"
+            app:srcCompat="@drawable/ic_stop" />
 
 
-            <Button
-                android:id="@+id/main_activity_button_connect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Connect" />
-
-
-            <TextView
-                android:id="@+id/textView_available_devices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Available devices" />
-
-            <ListView
-                android:id="@+id/main_activity_list_view_devices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </ListView>
-
-
-            <Button
-                android:id="@+id/main_activity_button_configure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Configure" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/main_activity_button_server_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Server start" />
-
-                <Button
-                    android:id="@+id/main_activity_button_server_stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Server stop" />
-
-            </LinearLayout>
-
-
-            <Button
-                android:id="@+id/main_activity_button_connect_hot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Connect"/>
-
-            <TextView
-                android:id="@+id/main_acitivity_received_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Received Data" />
-
-            <TextView
-                android:id="@+id/main_acitivity_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/main_activity_button_client_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Send string" />
-
-                <Button
-                    android:id="@+id/main_activity_button_client_stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Client Stop" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-    </ScrollView>
-
-</LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

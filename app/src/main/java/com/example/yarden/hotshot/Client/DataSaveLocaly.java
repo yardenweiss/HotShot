@@ -40,7 +40,7 @@ public class DataSaveLocaly {
             {
                     file.createNewFile();
             }
-            else if(!emptyFile) // file exist
+            else  // file exist
             {
                  res = new StringBuilder();
                     BufferedReader br = new BufferedReader(new FileReader(file));

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroung">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -11,28 +12,27 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton_shared"
-            android:layout_width="89dp"
-            android:layout_height="75dp"
+            android:layout_width="112dp"
+            android:layout_height="73dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="16dp"
             android:clickable="true"
             app:backgroundTint="@android:color/holo_green_light"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/floatingActionButton_get"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_router" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton_get"
-            android:layout_width="75dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="48dp"
-            android:layout_marginEnd="132dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="36dp"
+            android:layout_width="93dp"
+            android:layout_height="76dp"
+            android:layout_marginEnd="167dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="16dp"
             android:clickable="true"
             app:backgroundTint="@android:color/holo_green_light"
-            app:layout_constraintBottom_toTopOf="@+id/list_found"
             app:layout_constraintEnd_toStartOf="@+id/floatingActionButton_shared"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,20 +41,20 @@
         <ListView
             android:id="@+id/list_found"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="311dp"
             android:layout_marginBottom="22dp"
             android:layout_marginEnd="72dp"
             android:layout_marginStart="8dp"
+            android:divider="@drawable/listview_border"
+            android:dividerHeight="4px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/list_shared"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floatingActionButton_get"
-            android:divider="@drawable/listview_border"
-            android:dividerHeight="4px"/>
+            app:layout_constraintTop_toBottomOf="@+id/floatingActionButton_get" />
 
         <ListView
             android:id="@+id/list_shared"
-            android:layout_width="0dp"
+            android:layout_width="132dp"
             android:layout_height="386dp"
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="16dp"

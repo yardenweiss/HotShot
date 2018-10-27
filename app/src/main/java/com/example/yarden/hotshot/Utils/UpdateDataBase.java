@@ -42,15 +42,14 @@ public class UpdateDataBase extends Thread {
         dataUsage.StartCountDataUsage();
         userProvider = _userProvider;
         userClient = _userClient;
-
         dataSaveLocaly = new DataSaveLocaly(context);
+        databaseRef = FirebaseInstances.getDatabaseRef();
         GetUpdateFromDatabase();
     }
 
     @Override
     public void run() {
         uidClient = FirebaseInstances.getUid();
-        databaseRef = FirebaseInstances.getDatabaseRef();
         //move to ctor
         dataUsage.StartCountDataUsage();
         float mb = 0;
@@ -80,6 +79,7 @@ public class UpdateDataBase extends Thread {
         }
         Float mbString = mb;
         dataSaveLocaly.writeToFile(mbString.toString());
+        wifiManager.removeNetwork(userProvider.getNetId());
     }
 
      private void GetUpdateFromDatabase(){

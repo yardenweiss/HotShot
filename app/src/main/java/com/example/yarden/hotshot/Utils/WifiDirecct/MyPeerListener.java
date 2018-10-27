@@ -52,4 +52,5 @@ public class MyPeerListener implements WifiP2pManager.PeerListListener {
 
         }
     }
+
 }
