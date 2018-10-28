@@ -19,10 +19,6 @@ public class ServiceDiscovery {
     public static final String SERVICE_REG_TYPE = "_presence._tcp";
     public void discoverService(WifiP2pManager manager, WifiP2pManager.Channel channel) {
 
-        /*
-         * Register listeners for DNS-SD services. These are callbacks invoked
-         * by the system when a service is actually discovered.
-         */
 
         manager.setDnsSdResponseListeners(channel,
                 new WifiP2pManager.DnsSdServiceResponseListener() {

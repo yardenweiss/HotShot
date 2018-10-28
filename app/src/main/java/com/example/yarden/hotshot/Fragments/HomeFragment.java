@@ -13,6 +13,7 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -71,7 +72,6 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
     ImageButton buttonShareWifi;
     Button buttonConnect;
     Button buttonConfigure;
-    Button buttonConnectHotSpot;
     ListView listViewDevices;
     FloatingActionButton fabStop;
 
@@ -112,21 +112,16 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         buttonConnect = mainActivity.findViewById(R.id.main_activity_button_connect);
         buttonConfigure = mainActivity.findViewById(R.id.main_activity_button_configure);
         listViewDevices = mainActivity.findViewById(R.id.main_activity_list_view_devices);
-        buttonConnectHotSpot = mainActivity.findViewById(R.id.main_activity_button_connect_hot);
         fabStop = mainActivity.findViewById(R.id.floatingActionButton_stop);
 
-
-        buttonConnectHotSpot.setOnClickListener(this);
         buttonConnect.setOnClickListener(this);
         buttonGetWifi.setOnClickListener(this);
         buttonShareWifi.setOnClickListener(this);
         buttonConfigure.setOnClickListener(this);
         fabStop.setOnClickListener(this);
 
-
         buttonConnect.setVisibility(View.INVISIBLE);
         buttonConfigure.setVisibility(View.INVISIBLE);
-        buttonConnectHotSpot.setVisibility(View.INVISIBLE);
         listViewDevices.setVisibility(View.INVISIBLE);
 
         listViewDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,11 +173,11 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
             case R.id.main_activity_button_configure:
                 mManager.requestConnectionInfo(mChannel,this);
                 break;
-            case R.id.main_activity_button_connect_hot:
-                getWifi.run();
-                break;
             case R.id.floatingActionButton_stop:
-                getWifi.disconnect();
+                if(mIsClient)
+                     getWifi.disconnect();
+                else
+                    shareWifi.enableWifi();
 
             default:
                 break;
@@ -332,9 +327,9 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
         IS_OWNER = wifiP2pInfo.isGroupOwner;
 
         if(IS_OWNER) {
-            fabStop.setVisibility(View.GONE);
             startServer();
         } else {
+            String tmp = shareWifi.getHotspotInfo();//TODO delete it after the checks
             ClientStart();
         }
 
@@ -371,7 +366,7 @@ public class HomeFragment extends Fragment implements WifiP2pManager.ConnectionI
 
         return res;
     }
-// TODO check the override permission
+
     private void checkPermissionsAndAction(){
         if(!isPermissionsGranted(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_WIFI_STATE,

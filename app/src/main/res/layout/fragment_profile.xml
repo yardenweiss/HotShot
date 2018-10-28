@@ -8,144 +8,6 @@
     android:background="@drawable/backgroung"
    >
 
-    <RelativeLayout
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="121dp"
-            android:layout_height="26dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/Profile"
-            android:layout_marginTop="57dp"
-            android:fontFamily="sans-serif"
-            android:text="My Email"
-            android:textColor="#000000"
-            android:textSize="18dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/Profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="18dp"
-            android:text="Profile" />
-
-        <View
-            android:id="@+id/line1"
-            android:layout_width="384dp"
-            android:layout_height="1dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/Profile"
-            android:background="#474747" />
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="384dp"
-            android:layout_height="1dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView7"
-            android:background="#474747" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginTop="125dp"
-            android:text="Account" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginTop="158dp"
-            app:srcCompat="@drawable/ic_up" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginTop="212dp"
-            app:srcCompat="@drawable/ic_download_" />
-
-
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginTop="260dp"
-            android:text="Wallet" />
-
-        <RadioButton
-            android:id="@+id/radioButton_0.5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginBottom="224dp"
-            android:text="1GB 1$"
-            android:fontFamily="casual"
-            android:background="@drawable/profile_text_shape"
-            android:alpha="0.9"/>
-
-        <RadioButton
-            android:id="@+id/radioButton_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginBottom="183dp"
-            android:text="2GB 2$"
-            android:fontFamily="casual"
-            android:background="@drawable/profile_text_shape"
-            android:alpha="0.9"/>
-
-        <RadioButton
-            android:id="@+id/radioButton_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView"
-            android:layout_below="@+id/radioButton_2"
-            android:layout_marginTop="-178dp"
-            android:text="5GB 5$"
-            android:fontFamily="casual"
-            android:background="@drawable/profile_text_shape"
-            android:alpha="0.9"/>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="354dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="27dp"
-            android:fontFamily="casual"
-            android:background="@drawable/profile_text_shape"
-            android:alpha="0.9"
-            android:text="Dear Provider , We'll contact you for bank account information once revenue from your web share is accrued" />
-
-
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="121dp"
@@ -159,6 +21,54 @@
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="150dp"
+        android:alpha="0.9"
+        android:background="@drawable/profile_text_shape"
+        android:fontFamily="casual"
+        android:text="5GB 5$" />
+
+    <RadioButton
+        android:id="@+id/radioButton_0.5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="234dp"
+        android:alpha="0.9"
+        android:background="@drawable/profile_text_shape"
+        android:fontFamily="casual"
+        android:text="1GB 1$" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="354dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp"
+        android:alpha="0.9"
+        android:background="@drawable/profile_text_shape"
+        android:fontFamily="casual"
+        android:text="Dear Provider , We'll contact you for bank account information once revenue from your web share is accrued" />
+
+    <RadioButton
+        android:id="@+id/radioButton_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="192dp"
+        android:alpha="0.9"
+        android:background="@drawable/profile_text_shape"
+        android:fontFamily="casual"
+        android:text="2GB 2$" />
 
     <TextView
         android:id="@+id/Profile"
@@ -187,19 +97,19 @@
         android:layout_height="23dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView"
-        android:layout_marginBottom="106dp"
+        android:layout_marginBottom="114dp"
         android:background="@drawable/buttonshape"
         android:text="pay" />
 
     <TextView
         android:id="@+id/textView_email"
-        android:layout_width="251dp"
+        android:layout_width="241dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button_sign_out"
         android:layout_alignStart="@+id/textView"
-        android:fontFamily="casual"
+        android:alpha="0.9"
         android:background="@drawable/profile_text_shape"
-        android:alpha="0.9"/>
+        android:fontFamily="casual" />
 
     <View
         android:id="@+id/line1"
@@ -269,17 +179,18 @@
 
     <TextView
         android:id="@+id/textView_wifi_proviedr"
-        android:layout_width="54dp"
+        android:layout_width="67dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView_email"
+        android:layout_alignStart="@+id/textView_wifi_get"
         android:layout_alignTop="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView_wifi_get"
-        android:layout_width="51dp"
+        android:layout_width="69dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView_email"
-        android:layout_alignTop="@+id/imageView2" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginEnd="77dp" />
 
     <TextView
         android:id="@+id/textView12"

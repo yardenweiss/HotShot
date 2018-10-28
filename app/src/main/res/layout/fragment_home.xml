@@ -41,23 +41,12 @@
 
 
         <Button
-            android:id="@+id/main_activity_button_connect_hot"
-            android:layout_width="106dp"
-            android:layout_height="32dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/main_activity_button_connect"
-            android:layout_marginBottom="102dp"
-            android:background="@drawable/buttonshape"
-            android:text="ConnectHot" />
-
-
-        <Button
             android:id="@+id/main_activity_button_connect"
             android:layout_width="106dp"
             android:layout_height="32dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/main_activity_button_configure"
-            android:layout_marginStart="47dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/get_wifi"
+            android:layout_marginBottom="228dp"
             android:background="@drawable/buttonshape"
             android:text="Connect" />
 
@@ -65,9 +54,9 @@
             android:id="@+id/main_activity_button_configure"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_alignEnd="@+id/share_wifi"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="157dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="76dp"
             android:background="@drawable/buttonshape"
             android:text="Configure" />
 

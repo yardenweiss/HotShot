@@ -63,7 +63,7 @@ public class ClientManager implements IClientReciveEventListener,IWifiFaoundEven
         updateDataBase.start();
     }
 
-    public void disconnect()
+    public void disconnect( )
     {
         if(netId != 0)
              m_wifiManager.removeNetwork(netId);

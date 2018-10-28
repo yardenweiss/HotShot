@@ -25,7 +25,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
     private String SSID;
 
     public WifiBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel,
-                                       MainActivity activity) {
+                                 MainActivity activity) {
         super();
         this.mManager = manager;
         this.mChannel = channel;
@@ -70,8 +70,8 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             //    String goAddress = Utils.getDottedDecimalIP(p2pInfo.groupOwnerAddress
             //            .getAddress());
             //    boolean isGroupOwner = p2pInfo.isGroupOwner;
-           //     Log.d(WifiBroadcastReceiver.TAG,"I am a group owner");
-           // }
+            //     Log.d(WifiBroadcastReceiver.TAG,"I am a group owner");
+            // }
             if (networkInfo.isConnected() && mActivity.getHomeFragment().isClient()) {
 
                 // we are connected with the other device, request connection

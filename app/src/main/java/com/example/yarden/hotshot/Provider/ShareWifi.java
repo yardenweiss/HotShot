@@ -34,7 +34,7 @@ public class ShareWifi {
     }
 
 
-    private void enableWifi() {
+    public void enableWifi() {
         if (!m_wifiManager.isWifiEnabled())
             m_wifiManager.setWifiEnabled(true);
     }
